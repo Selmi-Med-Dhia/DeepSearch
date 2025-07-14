@@ -5,10 +5,11 @@
         <link rel="icon" type="image/png" href="../src/public/images/logo.png">
         <link rel="stylesheet" href="styles/bootstrap.min.css">
         <link rel="stylesheet" href="styles/bootstrap-icons.min.css">
+        <link href="styles/select2.min.css" rel="stylesheet" />
+
         <link rel="stylesheet" href="styles/mainStyle.css">
         <title>DeepSearch</title>
     </head>
-    <script defer src="renderer.js"></script>
     <body>
         <div class="header">
             <button class="m-2 flat">
@@ -21,8 +22,20 @@
         <div class="main-body">
             <div class="container-fluid h-60">
                 <div class="row h-100">
-                    <div class="input-area col-md-6">
-
+                    <div class="input-area col-md-6 ps-2">
+                        <label for="search-input" class="form-label label">Searching for...</label>
+                        <br>
+                        <select id="objectSelector" multiple="multiple" style="width:90%">
+                            <option value="1">Green</option>
+                            <option value="2">Blue</option>
+                            <option value="3">Red</option>
+                            <option value="1">Green</option>
+                            <option value="2">Blue</option>
+                            <option value="3">Red</option>
+                            <option value="1">Green</option>
+                            <option value="2">Blue</option>
+                            <option value="3">Red</option>
+                        </select>
                     </div>
                     <div class="options-area col-md-6">
                         
@@ -33,5 +46,13 @@
                 
             </div>
         </div>
+    
+    <script src="js/jquery.min.js"></script>
+    <script>
+        window.$ = window.jQuery = require("./js/jquery.min.js");
+        require("select2/dist/js/select2")(window.$);
+    </script>
+    <script src="js/select2.min.js"></script>
+    <script src="renderer.js"></script>
     </body>
 </html>

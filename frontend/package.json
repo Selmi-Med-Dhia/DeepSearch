@@ -12,5 +12,9 @@
   "description": "",
   "devDependencies": {
     "electron": "^37.2.1"
+  },
+  "dependencies": {
+    "jquery": "^3.7.1",
+    "select2": "^4.1.0-rc.0"
   }
 }

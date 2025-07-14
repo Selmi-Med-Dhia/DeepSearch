@@ -14,6 +14,8 @@ function createWindow () {
   });
 
   win.loadFile('index.html');
+  console.log("Electron is running!");
+  win.webContents.openDevTools();
 }
 
 app.whenReady().then(createWindow);
