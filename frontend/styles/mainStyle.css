@@ -1,5 +1,60 @@
-body{
-    background-color: #00121b;
+html, body{
+    background-color: #000d10;
     font-family: Arial, sans-serif;
     color: #ffffff;
+    height:100%;
+    margin: 0;
+    padding: 0;
+    width:100%;
+}
+body{
+    display: flex;
+    flex-direction: column;
+}
+.flat{
+    background: none;
+    border: none;
+    box-shadow: none;
+    color: inherit;
+    cursor: pointer;
+}
+.float-right{
+    position: absolute;
+    right: 10px;
+}
+.header{
+    padding:0;
+    margin:0;
+    position: relative;
+    width: 100%;
+}
+.main-body{
+    padding: 10px;
+    margin: 0;
+    width: auto;
+    flex:1;
+    background-color: #111418;
+}
+.input-area{
+    padding: 0;
+    width:50%;
+    height:100%;
+    border-right:2px solid rgba(77, 77, 77, 0.744);
+}
+.options-area{
+    padding: 0;
+    width:50%;
+    height:100%;
+}
+.result-area{
+    padding: 0;
+    width:100%;
+    height:40%;
+}
+.h-60{
+    height: 60%;
+}
+.green{
+    color: #2cff2c;
+    text-decoration: bold;
 }
