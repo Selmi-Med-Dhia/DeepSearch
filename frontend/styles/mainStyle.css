@@ -106,10 +106,13 @@ body{
     color: white;
     font-family: 'Rajdhani', sans-serif;
 }
+.select2-container--below {
+    min-height: fit-content !important;
+}
 .select2-container .select2-selection{
     border-radius: 4px;
     background-color: #1d2023;
-    min-height: fit-content;
+    min-height: fit-content !important;
     border: 1px solid #444;
     font-family: 'Rajdhani', sans-serif;
 }
@@ -196,4 +199,18 @@ body{
 .select2-container--default .select2-results__option--highlighted {
   background-color: #191b1e !important;
   color: white !important;
+}
+.directories-area:disabled {
+    width: 90%;
+    background-color: #1d2023;
+    color: white;
+    border-radius: 4px;
+    padding: 10px;
+    font-family: 'Rajdhani', sans-serif;
+    resize: none;
+    border: 1px solid #444;
+}
+.select2-container--focus .select2-selection {
+    box-shadow: 0 0 5px #2cff2c !important;
+    border-color: #2cff2c !important;
 }
