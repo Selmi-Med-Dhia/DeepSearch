@@ -11,93 +11,101 @@
         <title>DeepSearch</title>
     </head>
     <body>
-        <div class="header">
-            <button class="ms-2 mb-2 flat pt-1" id="gear-button">
-                <i class="bi bi-gear green-icon" style="font-size: 1.7rem;"></i>
-            </button>
-            <div id="presets-menu">
-                <div class="preset active first">
-                    preset1
-                </div>
-                <div class="preset">
-                    preset2
-                </div>
-                <div class="preset">
-                    preset3
-                </div>
-                <div class="preset">
-                    preset4
-                </div>
-            </div>
-            <button class="ms-2 mb-2 pt-1 flat float-right" id="clock-button">
-                <i class="bi bi-clock green-icon" style="font-size: 1.7rem;"></i>
+        <div class="sidebar" id="sidebar">
+            <button class="ms-2 mb-2 flat pt-1" id="settings-home-button">
+                <i class="bi bi-house green-icon" style="font-size: 1.7rem;"></i>
             </button>
         </div>
-        <div class="main-body">
-            <div class="container-fluid h-60">
-                <div class="row h-100">
-                    <div class="input-area col-md-6 ps-2">
-                        <label for="search-input" class="form-label label">Searching for...</label>
-                        <br>
-                        <select id="objectSelector" multiple="multiple" style="width:95%">
-                            <option value="1">Green</option>
-                            <option value="2">Blue</option>
-                            <option value="3">Red</option>
-                            <option value="1">Green</option>
-                            <option value="2">Blue</option>
-                            <option value="3">Red</option>
-                            <option value="1">Green</option>
-                            <option value="2">Blue</option>
-                            <option value="3">Red</option>
-                        </select>
-                        <br>
-                        <label for="search-input" class="form-label label pt-3">In...</label>
-                        <br>
-                        <textarea id="directories-area" class="form-control directories-area" rows="4" disabled>
-                        </textarea>
-                        <br>
-                        <button onclick="selectFolder()" class="neon-button">Add Folder</button>
-                        <button class="neon-button" style="float:right; margin-right:5%">Search</button>
+
+        <div class="main-wrapper">
+            <div class="header">
+                <button class="ms-2 mb-2 flat pt-1" id="gear-button">
+                    <i class="bi bi-gear green-icon" style="font-size: 1.7rem;"></i>
+                </button>
+                <div id="presets-menu">
+                    <div class="preset active first">
+                        preset1
                     </div>
-                    <div class="options-area col-md-6 ps-2">
-                        <label for="search-input" class="form-label label">Options</label>
-                        <br>
-                        <input type="checkbox" id="generate-folder-checkbox" class="checkbox">
-                            <label for="generate-folder-checkbox" class="form-label checkbox-label">Generate folder containing resulted images</label>
-                        <br>
-                        <input type="checkbox" id="customize-folder-checkbox" class="checkbox">
-                        <label for="customize-folder-checkbox" class="form-label checkbox-label">Customize generated folder name and location</label>
-                        <div style="display: flex; flex-direction: row;">
-                            &nbsp;&nbsp;<b style="letter-spacing:-1px;">|__</b>&nbsp;
-                            <textarea id="custom-folder-area" class="form-control custom-folder-area" style="flex:1;" rows="1" readonly disabled></textarea>
-                            <button onclick="selectFolder()" class="neon-button ms-2" style="margin-right:10px" disabled>Select Folder</button>
+                    <div class="preset">
+                        preset2
+                    </div>
+                    <div class="preset">
+                        preset3
+                    </div>
+                    <div class="preset">
+                        preset4
+                    </div>
+                </div>
+                <button class="ms-2 mb-2 pt-1 flat float-right" id="clock-button">
+                    <i class="bi bi-clock green-icon" style="font-size: 1.7rem;"></i>
+                </button>
+            </div>
+            <div class="main-body">
+                <div class="container-fluid h-60">
+                    <div class="row h-100">
+                        <div class="input-area col-md-6 ps-2">
+                            <label for="search-input" class="form-label label">Searching for...</label>
+                            <br>
+                            <select id="objectSelector" multiple="multiple" style="width:95%">
+                                <option value="1">Green</option>
+                                <option value="2">Blue</option>
+                                <option value="3">Red</option>
+                                <option value="1">Green</option>
+                                <option value="2">Blue</option>
+                                <option value="3">Red</option>
+                                <option value="1">Green</option>
+                                <option value="2">Blue</option>
+                                <option value="3">Red</option>
+                            </select>
+                            <br>
+                            <label for="search-input" class="form-label label pt-3">In...</label>
+                            <br>
+                            <textarea id="directories-area" class="form-control directories-area" rows="4" disabled>
+                            </textarea>
+                            <br>
+                            <button onclick="selectFolder()" class="neon-button">Add Folder</button>
+                            <button class="neon-button" style="float:right; margin-right:5%">Search</button>
                         </div>
-                        <br>
-                        <input type="checkbox" id="add-bbs-checkbox" class="checkbox">
-                        <label for="add-bbs-checkbox" class="form-label checkbox-label">Overlay bounding boxes on images</label>
-                        <br>
-                        <input type="checkbox" id="sort-checkbox" class="checkbox">
-                        <label for="sort-checkbox" class="form-label checkbox-label">Sort by number of relevent objects</label>
-                        <br>
-                        <input type="checkbox" id="auto-open-checkbox" class="checkbox">
-                        <label for="auto-open-checkbox" class="form-label checkbox-label">Automatically open target folder</label>
-                        <br>
-                        <label for="min-confidence-input" class="form-label checkbox-label ps-4" style="padding-left: 29px !important;">Minimum confidence threshold:</label>
-                        <input type="text" id="min-confidence-input" class="min-confidence-input" value="0.5">
-                        <button class="neon-button ms-2 float-right" style="margin-right:10px">Default All</button>
+                        <div class="options-area col-md-6 ps-2">
+                            <label for="search-input" class="form-label label">Options</label>
+                            <br>
+                            <input type="checkbox" id="generate-folder-checkbox" class="checkbox">
+                                <label for="generate-folder-checkbox" class="form-label checkbox-label">Generate folder containing resulted images</label>
+                            <br>
+                            <input type="checkbox" id="customize-folder-checkbox" class="checkbox">
+                            <label for="customize-folder-checkbox" class="form-label checkbox-label">Customize generated folder name and location</label>
+                            <div style="display: flex; flex-direction: row;">
+                                &nbsp;&nbsp;<b style="letter-spacing:-1px;">|__</b>&nbsp;
+                                <textarea id="custom-folder-area" class="form-control custom-folder-area" style="flex:1;" rows="1" readonly disabled></textarea>
+                                <button onclick="selectFolder()" class="neon-button ms-2" style="margin-right:10px" disabled>Select Folder</button>
+                            </div>
+                            <br>
+                            <input type="checkbox" id="add-bbs-checkbox" class="checkbox">
+                            <label for="add-bbs-checkbox" class="form-label checkbox-label">Overlay bounding boxes on images</label>
+                            <br>
+                            <input type="checkbox" id="sort-checkbox" class="checkbox">
+                            <label for="sort-checkbox" class="form-label checkbox-label">Sort by number of relevent objects</label>
+                            <br>
+                            <input type="checkbox" id="auto-open-checkbox" class="checkbox">
+                            <label for="auto-open-checkbox" class="form-label checkbox-label">Automatically open target folder</label>
+                            <br>
+                            <label for="min-confidence-input" class="form-label checkbox-label ps-4" style="padding-left: 29px !important;">Minimum confidence threshold:</label>
+                            <input type="text" id="min-confidence-input" class="min-confidence-input" value="0.5">
+                            <button class="neon-button ms-2 float-right" style="margin-right:10px">Default All</button>
+                        </div>
                     </div>
                 </div>
+                <div class="result-area pt-3">
+                    <textarea id="results-text-area" class="form-control results-text-area" disabled>
+                    </textarea>
+                    <button class="neon-button JSON-button m-3" style="margin-right:10px">Copy JSON</button>
+                    <button class="neon-button open-folder-button m-3" style="margin-right:10px">Open Folder</button>
+                </div>
             </div>
-            <div class="result-area pt-3">
-                <textarea id="results-text-area" class="form-control results-text-area" disabled>
-                </textarea>
-                <button class="neon-button JSON-button m-3" style="margin-right:10px">Copy JSON</button>
-                <button class="neon-button open-folder-button m-3" style="margin-right:10px">Open Folder</button>
-            </div>
+        
+        <script src="js/jquery.min.js"></script>
+        <script src="js/select2.min.js"></script>
+        <script src="renderer.js"></script>
         </div>
-    
-    <script src="js/jquery.min.js"></script>
-    <script src="js/select2.min.js"></script>
-    <script src="renderer.js"></script>
     </body>
 </html>
