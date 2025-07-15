@@ -88,9 +88,12 @@ body{
 .h-60{
     height: 60%;
 }
-.green{
+.green-icon{
     color: #2cff2c;
     text-decoration: bold;
+}
+.green-icon:hover{
+    text-shadow:0 0 8px #6dff6d;
 }
 .label{
     color:white;
@@ -201,7 +204,7 @@ body{
   color: white !important;
 }
 .directories-area:disabled {
-    width: 90%;
+    width: 95%;
     background-color: #1d2023;
     color: white;
     border-radius: 4px;
@@ -213,4 +216,23 @@ body{
 .select2-container--focus .select2-selection {
     box-shadow: 0 0 5px #2cff2c !important;
     border-color: #2cff2c !important;
+}
+.neon-button {
+    background-color: #2cff2c;
+    color: #001947;
+    border: 1px solid #444;
+    padding: 5px 10px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: bold;
+    font-size: 1.15em;
+    cursor: pointer;
+    transition: background-color 0.1s, color 0.1s;
+}
+.neon-button:hover {
+    background-color: #6dff6d;
+}
+.neon-button:active {
+    background-color: #1d2023;
+    color: #2cff2c;
+    box-shadow: 0 0 5px #2cff2c, 0 0 5px #2cff2c, 0 0 5px #2cff2c;
 }

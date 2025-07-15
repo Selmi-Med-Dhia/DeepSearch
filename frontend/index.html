@@ -13,10 +13,10 @@
     <body>
         <div class="header">
             <button class="m-2 flat">
-                <i class="bi bi-gear green" style="font-size: 1.7rem;"></i>
+                <i class="bi bi-gear green-icon" style="font-size: 1.7rem;"></i>
             </button>
             <button class="m-2 flat float-right">
-                <i class="bi bi-clock green" style="font-size: 1.7rem;"></i>
+                <i class="bi bi-clock green-icon" style="font-size: 1.7rem;"></i>
             </button>
         </div>
         <div class="main-body">
@@ -25,7 +25,7 @@
                     <div class="input-area col-md-6 ps-2">
                         <label for="search-input" class="form-label label">Searching for...</label>
                         <br>
-                        <select id="objectSelector" multiple="multiple" style="width:90%">
+                        <select id="objectSelector" multiple="multiple" style="width:95%">
                             <option value="1">Green</option>
                             <option value="2">Blue</option>
                             <option value="3">Red</option>
@@ -40,8 +40,9 @@
                         <label for="search-input" class="form-label label pt-3">In...</label>
                         <br>
                         <textarea id="search-input" class="form-control directories-area" rows="4" disabled></textarea>
-
-                        </textarea>
+                        <br>
+                        <button onclick="selectFolder()" class="neon-button">Add Folder</button>
+                        <button class="neon-button" style="float:right; margin-right:5%">Search</button>
                     </div>
                     <div class="options-area col-md-6">
                         
