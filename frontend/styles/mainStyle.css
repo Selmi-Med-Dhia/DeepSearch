@@ -330,6 +330,7 @@ body{
     font-family: 'Rajdhani', sans-serif;
     resize: none;
     border: 1px solid #444;
+    text-wrap: nowrap;
 }
 .results-text-area:disabled {
     flex:1;
@@ -343,6 +344,7 @@ body{
     padding: 10px;
     font-family: 'Rajdhani', sans-serif;
     resize: none;
+    text-wrap: nowrap;
     border: 1px solid #444;
 }
 .neon-button:disabled {
@@ -380,10 +382,12 @@ body{
     padding-left: 10px;
     font-size: 1.15em;
     border-left: 0;
+    cursor:pointer;
 }
 .active{
     background-color: #111418;
     border-bottom: 0px;
+    cursor:auto;
 }
 .first{
     border-left: 1px solid #2cff2c;
@@ -399,4 +403,42 @@ body{
   rotate: 45deg;
   z-index: 2;
   border-right: 1px solid #2cff2c;
+}
+
+.directories-area:disabled, .results-text-area{
+  scrollbar-width: thin;
+  scrollbar-color: #666 #1d2023;
+}
+
+.directories-area:disabled::-webkit-scrollbar, .results-text-area:disabled::-webkit-scrollbar{
+  width: 6px;
+  height: 6px;
+}
+
+.directories-area:disabled::-webkit-scrollbar-button, .results-text-area:disabled::-webkit-scrollbar-button {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
+.directories-area:disabled::-webkit-scrollbar-track, .results-text-area:disabled::-webkit-scrollbar-track {
+  background: #1d2023;
+  border-radius: 10px;
+}
+
+.directories-area:disabled::-webkit-scrollbar-thumb, .results-text-area:disabled::-webkit-scrollbar-thumb {
+  background-color: #666;
+  border-radius: 10px;
+}
+#gear-button:hover {
+    animation: spin-gear 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes spin-gear {
+    from { 
+        transform: rotate(0deg); 
+    }
+    to { 
+        transform: rotate(1080deg); 
+    }
 }

@@ -12,7 +12,7 @@
     </head>
     <body>
         <div class="header">
-            <button class="m-2 flat">
+            <button class="ms-2 mb-2 flat pt-1" id="gear-button">
                 <i class="bi bi-gear green-icon" style="font-size: 1.7rem;"></i>
             </button>
             <div id="presets-menu">
@@ -29,7 +29,7 @@
                     preset4
                 </div>
             </div>
-            <button class="m-2 flat float-right">
+            <button class="ms-2 mb-2 pt-1 flat float-right" id="clock-button">
                 <i class="bi bi-clock green-icon" style="font-size: 1.7rem;"></i>
             </button>
         </div>
@@ -53,7 +53,8 @@
                         <br>
                         <label for="search-input" class="form-label label pt-3">In...</label>
                         <br>
-                        <textarea id="directories-area" class="form-control directories-area" rows="4" disabled></textarea>
+                        <textarea id="directories-area" class="form-control directories-area" rows="4" disabled>
+                        </textarea>
                         <br>
                         <button onclick="selectFolder()" class="neon-button">Add Folder</button>
                         <button class="neon-button" style="float:right; margin-right:5%">Search</button>
@@ -88,7 +89,8 @@
                 </div>
             </div>
             <div class="result-area pt-3">
-                <textarea id="resuts-text-area" class="form-control results-text-area" disabled></textarea>
+                <textarea id="results-text-area" class="form-control results-text-area" disabled>
+                </textarea>
                 <button class="neon-button JSON-button m-3" style="margin-right:10px">Copy JSON</button>
                 <button class="neon-button open-folder-button m-3" style="margin-right:10px">Open Folder</button>
             </div>
