@@ -12,11 +12,12 @@
     </head>
     <body>
         <div class="sidebar1" id="sidebar1">
-            <button class="mb-2 flat " id="settings-home-button">
-                <i class="bi bi-arrow-bar-left green-icon" style="font-size: 1.7rem;"></i>
-            </button>
-            <h2 class="title">Settings</h2>
-
+            <div style="position: sticky; top: 0; z-index: 1000; display:inline-block;" class="p-0 m-0">
+                <button class="mb-2 flat sticky" id="settings-home-button">
+                    <i class="bi bi-arrow-bar-left green-icon" style="font-size: 1.7rem;"></i>
+                </button>
+            </div>
+            <h2 class="title sticky">Settings</h2>
             <div class="sidebar1-main-body">
                 <h4 class="sub-title">Performance</h4>
                 <div class="separator"></div>
@@ -62,10 +63,18 @@
                         <span>5</span>
                     </div>
                 </div>
-                
 
                 <h4 class="sub-title">Usage Options</h4>
                 <div class="separator"></div>
+                <br>
+                <h5 class="sub-title m-1 ms-3" style="display:inline-block;">Change default parent directory of results</h5>
+                <div style="display: flex; flex-direction: row;margin-top:20px;width:600px;margin-left:30px">
+                    <textarea id="custom-folder-area-settings" class="form-control custom-folder-area" style="flex:1;" rows="1" readonly disabled></textarea>
+                    <button onclick="selectFolder()" class="neon-button ms-2" style="margin-right:10px">Select Folder</button>
+                </div>
+                <br>
+                <input type="checkbox" id="customize-parent-folder-checkbox" class="checkbox" style="margin-left:32px;">
+                <label for="customize-parent-folder-checkbox" class="form-label checkbox-label" style="margin-bottom:25px">Always generate JSON file containing search results</label>
                 <h4 class="sub-title">Feedback</h4>
                 <div class="separator"></div>
             </div>

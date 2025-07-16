@@ -44,7 +44,7 @@ html, body{
 body{
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 .flat{
     background: none;
@@ -406,28 +406,43 @@ body{
   border-right: 1px solid #2cff2c;
 }
 
-.directories-area:disabled, .results-text-area{
+.directories-area:disabled, 
+.results-text-area,
+.sidebar1,
+.sidebar2{
   scrollbar-width: thin;
   scrollbar-color: #666 #1d2023;
 }
 
-.directories-area:disabled::-webkit-scrollbar, .results-text-area:disabled::-webkit-scrollbar{
+.directories-area:disabled::-webkit-scrollbar, 
+.results-text-area:disabled::-webkit-scrollbar,
+.sidebar1::-webkit-scrollbar,
+.sidebar2::-webkit-scrollbar{
   width: 6px;
   height: 6px;
 }
 
-.directories-area:disabled::-webkit-scrollbar-button, .results-text-area:disabled::-webkit-scrollbar-button {
+.directories-area:disabled::-webkit-scrollbar-button, 
+.results-text-area:disabled::-webkit-scrollbar-button,
+.sidebar1::-webkit-scrollbar-button,
+.sidebar2::-webkit-scrollbar-button{
   display: none;
   height: 0;
   width: 0;
 }
 
-.directories-area:disabled::-webkit-scrollbar-track, .results-text-area:disabled::-webkit-scrollbar-track {
+.directories-area:disabled::-webkit-scrollbar-track, 
+.results-text-area:disabled::-webkit-scrollbar-track,
+.sidebar1::-webkit-scrollbar-track,
+.sidebar2::-webkit-scrollbar-track {
   background: #1d2023;
   border-radius: 10px;
 }
 
-.directories-area:disabled::-webkit-scrollbar-thumb, .results-text-area:disabled::-webkit-scrollbar-thumb {
+.directories-area:disabled::-webkit-scrollbar-thumb, 
+.results-text-area:disabled::-webkit-scrollbar-thumb,
+.sidebar1::-webkit-scrollbar-thumb,
+.sidebar2::-webkit-scrollbar-thumb {
   background-color: #666;
   border-radius: 10px;
 }
@@ -456,6 +471,7 @@ body{
   z-index: 3;
   box-shadow: 2px 0 8px #000;
   opacity:0.95;
+  overflow: auto;
 }
 .sidebar2{
   width: 100%;
