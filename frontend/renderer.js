@@ -19,7 +19,7 @@ async function selectFolder() {
 document.addEventListener('DOMContentLoaded', () => {
   const gearBtn = document.getElementById('gear-button');
   const homeBtn = document.getElementById('settings-home-button');
-  const sidebar = document.getElementById('sidebar');
+  const sidebar = document.getElementById('sidebar1');
 
   let isAnimating = false;
   openclose = () => {
@@ -34,4 +34,43 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   gearBtn.addEventListener('click', openclose)
   homeBtn.addEventListener('click', openclose)
+  slider.addEventListener('input', updateSliderBackground);
+  updateSliderBackground();
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const clockBtn = document.getElementById('clock-button');
+  const homeBtn = document.getElementById('history-home-button');
+  const sidebar = document.getElementById('sidebar2');
+
+  let isAnimating = false;
+  openclose = () => {
+    if (isAnimating) return;
+
+    isAnimating = true;
+    sidebar.classList.toggle('active');
+
+    setTimeout(() => {
+      isAnimating = false;
+    }, 500);
+  };
+  clockBtn.addEventListener('click', openclose)
+  homeBtn.addEventListener('click', openclose)
+});
+
+const slider = document.getElementById('custom-slider');
+
+function updateSliderBackground() {
+  const min = +slider.min;
+  const max = +slider.max;
+  const val = +slider.value;
+
+  const percent = ((val - min) / (max - min)) * 100;
+
+  slider.style.background = `
+    linear-gradient(to right,
+      #2cff2c 0%,
+      #2cff2c ${percent}%,
+      #aaa ${percent}%,
+      #aaa 100%)`;
+}

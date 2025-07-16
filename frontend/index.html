@@ -11,10 +11,71 @@
         <title>DeepSearch</title>
     </head>
     <body>
-        <div class="sidebar" id="sidebar">
-            <button class="ms-2 mb-2 flat pt-1" id="settings-home-button">
-                <i class="bi bi-house green-icon" style="font-size: 1.7rem;"></i>
+        <div class="sidebar1" id="sidebar1">
+            <button class="mb-2 flat " id="settings-home-button">
+                <i class="bi bi-arrow-bar-left green-icon" style="font-size: 1.7rem;"></i>
             </button>
+            <h2 class="title">Settings</h2>
+
+            <div class="sidebar1-main-body">
+                <h4 class="sub-title">Performance</h4>
+                <div class="separator"></div>
+                <br>
+                <div style="text-wrap:nowrap; padding:0; margin:0;"><h5 class="sub-title m-1 ms-3" style="display:inline-block;">Clear cached data: </h5>&nbsp;&nbsp;<p class="rajdhani"> we keep information about previous searches so future ones don't require as much compute.</p></div>
+                <div class="container-fluid p-0 m-0">
+                    <div class="row p-0 m-0">
+                        <div class="col cache-container">
+                            |
+                            <br>
+                            |_____
+                            <br>
+                            |
+                            <br>
+                            |
+                            <br>
+                            |
+                            <br>
+                            |_____
+                        </div>
+                        <div class="col cache-button-area" >
+                            <br>
+                            <br>
+                            <button class="neon-button">Clear only unuseful data</button>&nbsp;&nbsp;...KB
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <button class="neon-button">Clear all cached data</button>&nbsp;&nbsp;...MB, you should only use this if you need the storage space!!
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div style="text-wrap:nowrap; padding:0; margin:0;"><h5 class="sub-title m-1 ms-3" style="display:inline-block;">Multithreading: </h5>&nbsp;&nbsp;<p class="rajdhani"> the more theads you allow the faster your searches will complete but at the expense of RAM.</p></div>
+                <div class="slider-container">
+                    <input type="range" id="custom-slider" min="1" max="5" step="1" value="3">
+                    <div class="tick-labels">
+                        <span>1</span>
+                        <span>2</span>
+                        <span>3</span>
+                        <span>4</span>
+                        <span>5</span>
+                    </div>
+                </div>
+                
+
+                <h4 class="sub-title">Usage Options</h4>
+                <div class="separator"></div>
+                <h4 class="sub-title">Feedback</h4>
+                <div class="separator"></div>
+            </div>
+        </div>
+
+        <div class="sidebar2" id="sidebar2">
+            <button class="mb-2 flat float-right" id="history-home-button">
+                <i class="bi bi-arrow-bar-right green-icon" style="font-size: 1.7rem;"></i>
+            </button>
+            <h2 class="title float-right">Search History</h2>
         </div>
 
         <div class="main-wrapper">
