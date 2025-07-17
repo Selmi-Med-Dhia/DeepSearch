@@ -5,10 +5,12 @@ function createWindow () {
   const win = new BrowserWindow({
     width: 1000,
     height: 700,
+    minWidth: 920,
+    minHeight: 650,
     icon : path.join(__dirname, 'assets/logo.png'),
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false
+      contextIsolation: false,
     },
     autoHideMenuBar: true
   });

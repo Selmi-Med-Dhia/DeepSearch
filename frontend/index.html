@@ -77,14 +77,48 @@
                 <label for="customize-parent-folder-checkbox" class="form-label checkbox-label" style="margin-bottom:25px">Always generate JSON file containing search results</label>
                 <h4 class="sub-title">Feedback</h4>
                 <div class="separator"></div>
+                <p class="feedback-text">A great effort was put to making this app as neat and practicle as users would find enjoyable, if you think we did a good job at that or want to share a suggession to better your experience, you can send us your feedback here:</p>
+                <textarea id="feedback-text-area" class="form-control feedback-text-area"></textarea>
+                <button class="neon-button feedback-button">Send</button>
             </div>
         </div>
 
-        <div class="sidebar2" id="sidebar2">
-            <button class="mb-2 flat float-right" id="history-home-button">
-                <i class="bi bi-arrow-bar-right green-icon" style="font-size: 1.7rem;"></i>
-            </button>
+        <div class="sidebar2" id="sidebar2">   
+            <div style="position: sticky; top: 0; z-index: 1000; width:fit-content; float:right;" class="p-0 m-0">
+                <button class="mb-2 flat" id="history-home-button">
+                    <i class="bi bi-arrow-bar-right green-icon" style="font-size: 1.7rem;"></i>
+                </button>
+            </div>
             <h2 class="title float-right">Search History</h2>
+            <div class="sidebar2-main-body">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                        <th>date</th>
+                        <th>preset</th>
+                        <th>filters</th>
+                        <th>number of inputs</th>
+                        <th>number of resutls</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <td>Row 1 Col 1</td>
+                        <td>Row 1 Col 2</td>
+                        <td>Row 1 Col 3</td>
+                        <td>Row 1 Col 4</td>
+                        <td>Row 1 Col 5</td>
+                        </tr>
+                        <tr>
+                        <td>Row 2 Col 1</td>
+                        <td>Row 2 Col 2</td>
+                        <td>Row 2 Col 3</td>
+                        <td>Row 2 Col 4</td>
+                        <td>Row 2 Col 5</td>
+                        </tr>
+                    </tbody>
+                    </table>
+            </div>
         </div>
 
         <div class="main-wrapper">
