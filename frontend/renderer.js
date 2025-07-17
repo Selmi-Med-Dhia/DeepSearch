@@ -1,4 +1,6 @@
-//const { ipcRenderer } = require('electron');
+const { ipcRenderer } = require('electron');
+const { spawn } = require('child_process')
+
 try {
     const $ = require('jquery');
     window.$ = window.jQuery = $;
@@ -74,3 +76,16 @@ function updateSliderBackground() {
       #aaa ${percent}%,
       #aaa 100%)`;
 }
+
+///////////server/////////
+const server = spawn('python', ["../backend/server.py"]);
+
+server.stdout.on('data', data=>{
+  console.log("stdout " + data);
+});
+server.stderr.on('data', data=>{
+  console.log("stderr " + data);
+});
+server.on('close', code=>{
+  console.log("the server exited with code "+String(code));
+});
