@@ -1,4 +1,5 @@
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
+const { spawn } = require('child_process')
 const path = require('path');
 
 function createWindow () {
@@ -17,8 +18,26 @@ function createWindow () {
 
   win.loadFile('index.html');
   console.log("Electron is running!");
-  //win.webContents.openDevTools();
+  win.webContents.openDevTools();
 }
+
+///////////server/////////
+const server = spawn('python', ["../backend/server.py"]);
+
+server.stdout.on('data', data=>{
+  console.log("stdout " + data);
+});
+server.stderr.on('data', data=>{
+  console.log("stderr " + data);
+});
+server.on('close', code=>{
+  console.log("the server exited with code "+String(code));
+});
+
+app.on('quit', () => {
+  server.kill();
+});
+///////////////////////
 
 app.whenReady().then(createWindow);
 

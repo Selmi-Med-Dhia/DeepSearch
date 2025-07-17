@@ -1,5 +1,4 @@
 const { ipcRenderer } = require('electron');
-const { spawn } = require('child_process')
 
 try {
     const $ = require('jquery');
@@ -7,6 +6,7 @@ try {
     require('select2')(window.$);
 } catch (e) {
 }
+
 $(function () {
     $('#objectSelector').select2({});
 });
@@ -71,21 +71,19 @@ function updateSliderBackground() {
 
   slider.style.background = `
     linear-gradient(to right,
-      #2cff2c 0%,
-      #2cff2c ${percent}%,
-      #aaa ${percent}%,
-      #aaa 100%)`;
+    #2cff2c 0%,
+    #2cff2c ${percent}%,
+    #aaa ${percent}%,
+    #aaa 100%)`;
 }
 
-///////////server/////////
-const server = spawn('python', ["../backend/server.py"]);
-
-server.stdout.on('data', data=>{
-  console.log("stdout " + data);
-});
-server.stderr.on('data', data=>{
-  console.log("stderr " + data);
-});
-server.on('close', code=>{
-  console.log("the server exited with code "+String(code));
-});
+fetch('http://127.0.0.1:5000/', {
+  method: 'GET',
+})
+.then(response => response.json())
+.then(data => {
+  console.log(data.message);
+})
+.catch(error => {
+  console.log('Error: '+error);
+})
