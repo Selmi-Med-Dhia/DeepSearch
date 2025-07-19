@@ -17,14 +17,28 @@ class _Options:
 
 class Preset:
     def __init__(self, name):
-        self.name = name
+        self.name: str = name
+        self.selected: bool = False
         self.directories: list[str] = []
         self.options: _Options = _Options()
     def to_dict(self):
         return ({
             "name" : self.name,
+            "selected" : self.selected,
             "directories": self.directories,
             "options": self.options.to_dict()
         })
-    def jsonify(self):
-        return json.dumps(self.to_dict(), indent=4)
+    def jsonify(self, indent=4):
+        return json.dumps(self.to_dict(), indent=indent)
+    def objectify(self, data, is_json=False):
+        dic = data
+        if is_json:
+            dic = json.loads(data)
+        self.name = dic["name"]
+        self.selected = dic["selected"]
+        self.directories = dic["directories"]
+        self.options.auto_open = dic["opntions"]["auto_open"]
+        self.options.overlay_bbxs = dic["opntions"]["overlay_bbxs"]
+        self.options.sort = dic["opntions"]["sort"]
+        self.options.generate_folder = dic["opntions"]["generate_folder"]
+        self.options.minimum_confidence = dic["opntions"]["minimum_confidence"]

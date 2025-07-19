@@ -16,8 +16,23 @@ class Search:
             "result_count" : self.result_count,
             "filters" : self.filters,
         })
-    def jsonify(self):
-        return json.dumps(self.to_dict(), indent=4)
+    def jsonify(self, indent=4):
+        return json.dumps(self.to_dict(), indent=indent)
+    def objectify(self, data, is_json=False):
+        dic = data
+        if is_json:
+            dic = json.loads(data)
+        self.preset_name = dic["preset_name"]
+        self.input_count = dic["input_count"]
+        self.result_count = dic["result_count"]
+        self.filters = dic["filters"]
+        self.datetime = datetime(dic["datetime"]["year"], 
+                                 dic["datetime"]["month"], 
+                                 dic["datetime"]["day"], 
+                                 dic["datetime"]["hour"], 
+                                 dic["datetime"]["minute"], 
+                                 dic["datetime"]["second"]
+                                 )
 
 def cto_dict(_datetime):
     return ({
