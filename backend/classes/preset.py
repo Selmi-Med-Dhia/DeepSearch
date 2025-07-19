@@ -16,7 +16,7 @@ class _Options:
         })
 
 class Preset:
-    def __init__(self, name):
+    def __init__(self, name=""):
         self.name: str = name
         self.selected: bool = False
         self.directories: list[str] = []
@@ -37,8 +37,9 @@ class Preset:
         self.name = dic["name"]
         self.selected = dic["selected"]
         self.directories = dic["directories"]
-        self.options.auto_open = dic["opntions"]["auto_open"]
-        self.options.overlay_bbxs = dic["opntions"]["overlay_bbxs"]
-        self.options.sort = dic["opntions"]["sort"]
-        self.options.generate_folder = dic["opntions"]["generate_folder"]
-        self.options.minimum_confidence = dic["opntions"]["minimum_confidence"]
+        self.options.auto_open = dic["options"]["auto_open"]
+        self.options.overlay_bbxs = dic["options"]["overlay_bbxs"]
+        self.options.sort = dic["options"]["sort"]
+        self.options.generate_folder = dic["options"]["generate_folder"]
+        self.options.minimum_confidence = dic["options"]["minimum_confidence"]
+        return self

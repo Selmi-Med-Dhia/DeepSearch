@@ -16,5 +16,6 @@ class Model_result:
             dic = json.loads(data)
         self.image_path = dic["image_path"]
         self.bounding_boxes = [bb.objectify() for bb in dic["bounding_boxes"]]
+        return self
     def jsonify(self, indent=4):
         return json.dumps(self.to_dict(), indent=indent)

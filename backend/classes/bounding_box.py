@@ -26,3 +26,4 @@ class Bounding_box:
         self.y_max = dic["y_max"]
         self.object = dic["object"]
         self.confidence = dic["confidence"]
+        return self

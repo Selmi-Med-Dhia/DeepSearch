@@ -19,6 +19,7 @@ class Settings:
         self.thread_count = dic["thread_count"]
         self.default_parent_dict = dic["default_parent_dict"]
         self.always_gen_json = dic["always_gen_json"]
+        return self
     def load(self):
         with open(os.path.join(os.path.dirname(__file__), "../appdata/data/settings.json"), "r") as f:
             json_data = f.read()

@@ -33,6 +33,7 @@ class Search:
                                  dic["datetime"]["minute"], 
                                  dic["datetime"]["second"]
                                  )
+        return self
 
 def cto_dict(_datetime):
     return ({
