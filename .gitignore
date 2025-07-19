@@ -1,1 +1,4 @@
 node_modules/
+backend/appdata/secrets.env
+deepvenv/
+backend/classes/__pycache__
