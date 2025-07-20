@@ -8,16 +8,17 @@ class Search:
         self.input_count: int = input_count
         self.result_count: int = result_count
         self.filters: list[int] = filters
-    def to_dict(self):
+    def to_dict(self) -> dict:
         return ({
-            "datetime" : cto_dict(self.datetime),
+            "datetime" : datetime_to_dict(self.datetime),
             "preset_name" : self.preset_name,
             "input_count" : self.input_count,
             "result_count" : self.result_count,
             "filters" : self.filters,
         })
-    def jsonify(self, indent=4):
+    def jsonify(self, indent=4) -> str:
         return json.dumps(self.to_dict(), indent=indent)
+    
     def objectify(data, is_json=False):
         dic = data
         if is_json:
@@ -34,7 +35,7 @@ class Search:
                       dic["result_count"],
                       dic["filters"]    )
 
-def cto_dict(_datetime):
+def datetime_to_dict(_datetime) -> dict:
     return ({
         'year': _datetime.year,
         'month': _datetime.month,

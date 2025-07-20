@@ -6,7 +6,7 @@ class _Options:
         self.sort: bool = False
         self.auto_open: bool = True
         self.minimum_confidence: float = 0.5
-    def to_dict(self):
+    def to_dict(self) -> dict:
         return ({
             "generate_folder": self.generate_folder,
             "overlay_bbxs": self.overlay_bbxs,
@@ -21,14 +21,14 @@ class Preset:
         self.selected: bool = False
         self.directories: list[str] = []
         self.options: _Options = _Options()
-    def to_dict(self):
+    def to_dict(self) -> dict:
         return ({
             "name" : self.name,
             "selected" : self.selected,
             "directories": self.directories,
             "options": self.options.to_dict()
         })
-    def jsonify(self, indent=4):
+    def jsonify(self, indent=4) -> str:
         return json.dumps(self.to_dict(), indent=indent)
     def objectify(data, is_json=False):
         dic = data

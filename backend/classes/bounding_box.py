@@ -7,7 +7,7 @@ class Bounding_box:
         self.y_max: int = y_max
         self.object: int = object
         self.confidence: float = confidence
-    def to_dict(self):
+    def to_dict(self) -> dict:
         return({
             "x_min" : self.x_min,
             "y_min" : self.y_min,

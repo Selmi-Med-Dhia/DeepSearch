@@ -4,6 +4,8 @@ from model_result import Model_result
 from bounding_box import Bounding_box
 import os
 import cv2
+from file_manager import File_manager
+import numpy
 
 os.environ["ULTRALYTICS_HUB"] = "False"
 
@@ -45,14 +47,14 @@ class Model:
                         (240, 255, 240), (245, 245, 220), (255, 240, 245), (255, 250, 205)
                     ]
     
-    def predict(self, image_paths, cache):
+    def predict(self, image_paths, cache) -> list[Model_result]:
         paths = image_paths.copy()
         cached_paths_indecies = []
         cached_results = []
 
         for i, path in enumerate(paths):
             c = next((c for c in cache if c.image_path == path), None)
-            if c != None:
+            if c != None and File_manager.sha256(path) == c.sha256 :
                 cached_paths_indecies.append(i)
                 cached_results.append(c)
         cached_set = set(cached_paths_indecies)
@@ -68,9 +70,9 @@ class Model:
             model_results.insert(i, c)
         return model_results
     def sort(model_results):
-        model_results.sort(key=(lambda r: r.num))
+        model_results.sort(key=lambda r: len(r.bounding_boxes))
     
-    def generate_images_with_boxes(model_results):
+    def generate_images_with_boxes(model_results) -> list[numpy.ndarray]:
         images = []
         for model_result in model_results:
             img = cv2.imread(model_result.image_path)
@@ -82,23 +84,3 @@ class Model:
                 cv2.putText(img, label, (bb.x_min, bb.y_min - 2), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(0, 0, 0), thickness=1)
             images.append(img)
         return images
-    
-    def save_images(image_paths, images, directory):
-        for image_path, image in zip(image_paths, images):
-            filename = os.path.basename(image_path)
-            name, ext = os.path.splitext(filename)
-            i=1
-            basename = name
-            new_path = os.path.join(directory, filename)
-            while( os.path.exists(new_path) ):
-                name = basename+str(i)
-                new_path = os.path.join(directory, basename+str(i)+ext)
-                i+=1
-            cv2.imwrite(new_path, image)
-
-#m = Model()
-#l = []
-#l.append(os.path.join(os.path.dirname(__file__), 'img.jpg'))
-#results = m.predict(l)
-#images = m.generate_images_with_boxes(results)
-#m.save_images(l, images, "C:\\Users\\monji\\OneDrive\\Bureau\\A")

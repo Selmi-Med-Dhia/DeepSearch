@@ -6,13 +6,13 @@ class Settings:
         self.thread_count: int = 1
         self.default_parent_dict: str = os.path.join(os.path.dirname(__file__), "../appdata/results")
         self.always_gen_json: bool = False
-    def to_dict(self):
+    def to_dict(self) -> dict:
         return ({
             "thread_count": self.thread_count,
             "default_parent_dict": self.default_parent_dict,
             "always_gen_json": self.always_gen_json
         })
-    def jsonify(self, indent=4):
+    def jsonify(self, indent=4) -> str:
         return json.dumps(self.to_dict(), indent=indent)
     def objectify(data):
         dic = json.loads(data)

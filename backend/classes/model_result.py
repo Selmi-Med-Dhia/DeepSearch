@@ -1,13 +1,20 @@
 from bounding_box import Bounding_box
 import json
+from file_manager import File_manager
 
 class Model_result:
     def __init__(self, image_path, bounding_boxes):
         self.image_path: str = image_path
+        self.sha256: str = File_manager.sha256(image_path)
         self.bounding_boxes: list[Bounding_box] = bounding_boxes
-    def to_dict(self):
+    def __init__(self, image_path, sha256, bounding_boxes):
+        self.image_path: str = image_path
+        self.sha256: str = sha256
+        self.bounding_boxes: list[Bounding_box] = bounding_boxes
+    def to_dict(self) -> dict:
         return({
             "image_path" : self.image_path,
+            "sha256" : self.sha256,
             "bounding_boxes" : [b.to_dict() for b in self.bounding_boxes]
         })
     def objectify(data, is_json=False):
@@ -16,7 +23,8 @@ class Model_result:
             dic = json.loads(data)
         return Model_result(
                             dic["image_path"],
+                            dic["sha256"],
                             [Bounding_box.objectify(bb) for bb in dic["bounding_boxes"]]
                             )
-    def jsonify(self, indent=4):
+    def jsonify(self, indent=4) -> str:
         return json.dumps(self.to_dict(), indent=indent)
