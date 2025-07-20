@@ -44,26 +44,46 @@ class Model:
                         (238, 232, 170), (152, 251, 152), (255, 228, 196), (255, 245, 238),
                         (240, 255, 240), (245, 245, 220), (255, 240, 245), (255, 250, 205)
                     ]
-    def predict(self, image_paths):
-        results = self.real_model.predict(image_paths)
+    
+    def predict(self, image_paths, cache):
+        paths = image_paths.copy()
+        cached_paths_indecies = []
+        cached_results = []
+
+        for i, path in enumerate(paths):
+            c = next((c for c in cache if c.image_path == path), None)
+            if c != None:
+                cached_paths_indecies.append(i)
+                cached_results.append(c)
+        cached_set = set(cached_paths_indecies)
+        paths = [paths[i] for i in range(len(paths)) if i not in cached_set]
+            
+        results = self.real_model.predict(paths)
         model_results = []
         for i, result in enumerate(results):
             bounding_boxes = [ Bounding_box(int(bb[0]), int(bb[1]), int(bb[2]), int(bb[3]), int(cls.item()), conf.item()) for bb, conf, cls in zip(result.boxes.xyxy, result.boxes.conf, result.boxes.cls)]
-            model_results.append(Model_result(image_paths[i], bounding_boxes))
+            model_results.append(Model_result(paths[i], bounding_boxes))
+
+        for i, c in zip(cached_paths_indecies, cached_results):
+            model_results.insert(i, c)
         return model_results
-    def generate_images_with_boxes(self, model_results):
+    def sort(model_results):
+        model_results.sort(key=(lambda r: r.num))
+    
+    def generate_images_with_boxes(model_results):
         images = []
         for model_result in model_results:
             img = cv2.imread(model_result.image_path)
             for bb in model_result.bounding_boxes:
-                cv2.rectangle(img, (bb.x_min, bb.y_min), (bb.x_max, bb.y_max), color=self.class_colors[bb.object], thickness=2)
-                label = f"{self.classes[bb.object]}: {bb.confidence:.2f}"
+                cv2.rectangle(img, (bb.x_min, bb.y_min), (bb.x_max, bb.y_max), color=Model.class_colors[bb.object], thickness=2)
+                label = f"{Model.classes[bb.object]}: {bb.confidence:.2f}"
                 (text_width, text_height), _ = cv2.getTextSize(label, fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, thickness=4)
-                cv2.rectangle(img, (bb.x_min, bb.y_min - text_height - 4), (bb.x_min + text_width, bb.y_min), color=self.class_colors[bb.object], thickness=-1)
+                cv2.rectangle(img, (bb.x_min, bb.y_min - text_height - 4), (bb.x_min + text_width, bb.y_min), color=Model.class_colors[bb.object], thickness=-1)
                 cv2.putText(img, label, (bb.x_min, bb.y_min - 2), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(0, 0, 0), thickness=1)
             images.append(img)
         return images
-    def save_images(self, image_paths, images, directory):
+    
+    def save_images(image_paths, images, directory):
         for image_path, image in zip(image_paths, images):
             filename = os.path.basename(image_path)
             name, ext = os.path.splitext(filename)

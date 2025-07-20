@@ -14,13 +14,14 @@ class Settings:
         })
     def jsonify(self, indent=4):
         return json.dumps(self.to_dict(), indent=indent)
-    def objectify(self, data):
+    def objectify(data):
         dic = json.loads(data)
-        self.thread_count = dic["thread_count"]
-        self.default_parent_dict = dic["default_parent_dict"]
-        self.always_gen_json = dic["always_gen_json"]
-        return self
+        dummy = Settings()
+        dummy.thread_count = dic["thread_count"]
+        dummy.default_parent_dict = dic["default_parent_dict"]
+        dummy.always_gen_json = dic["always_gen_json"]
+        return dummy
     def load(self):
         with open(os.path.join(os.path.dirname(__file__), "../appdata/data/settings.json"), "r") as f:
             json_data = f.read()
-            self.objectify(json_data)
+            Settings.objectify(json_data)

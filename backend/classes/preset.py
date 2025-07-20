@@ -30,16 +30,17 @@ class Preset:
         })
     def jsonify(self, indent=4):
         return json.dumps(self.to_dict(), indent=indent)
-    def objectify(self, data, is_json=False):
+    def objectify(data, is_json=False):
         dic = data
         if is_json:
             dic = json.loads(data)
-        self.name = dic["name"]
-        self.selected = dic["selected"]
-        self.directories = dic["directories"]
-        self.options.auto_open = dic["options"]["auto_open"]
-        self.options.overlay_bbxs = dic["options"]["overlay_bbxs"]
-        self.options.sort = dic["options"]["sort"]
-        self.options.generate_folder = dic["options"]["generate_folder"]
-        self.options.minimum_confidence = dic["options"]["minimum_confidence"]
-        return self
+        dummy = Preset()
+        dummy.name = dic["name"]
+        dummy.selected = dic["selected"]
+        dummy.directories = dic["directories"]
+        dummy.options.auto_open = dic["options"]["auto_open"]
+        dummy.options.overlay_bbxs = dic["options"]["overlay_bbxs"]
+        dummy.options.sort = dic["options"]["sort"]
+        dummy.options.generate_folder = dic["options"]["generate_folder"]
+        dummy.options.minimum_confidence = dic["options"]["minimum_confidence"]
+        return dummy

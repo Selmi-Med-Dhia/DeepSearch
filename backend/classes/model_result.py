@@ -8,14 +8,15 @@ class Model_result:
     def to_dict(self):
         return({
             "image_path" : self.image_path,
-            "bouding_boxes" : [b.to_dict() for b in self.bounding_boxes]
+            "bounding_boxes" : [b.to_dict() for b in self.bounding_boxes]
         })
-    def objectify(self, data, is_json=False):
+    def objectify(data, is_json=False):
         dic = data
         if is_json:
             dic = json.loads(data)
-        self.image_path = dic["image_path"]
-        self.bounding_boxes = [bb.objectify() for bb in dic["bounding_boxes"]]
-        return self
+        return Model_result(
+                            dic["image_path"],
+                            [Bounding_box.objectify(bb) for bb in dic["bounding_boxes"]]
+                            )
     def jsonify(self, indent=4):
         return json.dumps(self.to_dict(), indent=indent)

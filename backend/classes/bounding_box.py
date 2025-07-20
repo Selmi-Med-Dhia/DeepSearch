@@ -16,14 +16,15 @@ class Bounding_box:
             "object" : self.object,
             "confidence" : self.confidence
         })
-    def objectify(self, data, is_json=False):
+    def objectify(data, is_json=False):
         dic = data
         if is_json:
             dic = json.loads(data)
-        self.x_min = dic["x_min"]
-        self.y_min = dic["y_min"]
-        self.x_max = dic["x_max"]
-        self.y_max = dic["y_max"]
-        self.object = dic["object"]
-        self.confidence = dic["confidence"]
-        return self
+        return Bounding_box(
+                            dic["x_min"],
+                            dic["y_min"],
+                            dic["x_max"],
+                            dic["y_max"],
+                            dic["object"],
+                            dic["confidence"]
+                            )
