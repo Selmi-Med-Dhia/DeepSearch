@@ -25,9 +25,9 @@ class File_manager:
             cache = [Model_result.objectify(m) for m in cache_list]
         return cache
     
-    def add_cache(search_result: Model_result) -> list[Model_result]:
+    def add_cache(search_results: list[Model_result]) -> list[Model_result]:
         cache = File_manager.get_cache()
-        cache.append(search_result)
+        cache += search_results
         cache_json = [ c.to_dict() for c in cache]
         with open(cache_path, "w") as f:
             json.dump(cache_json, f, indent=4)
@@ -102,6 +102,9 @@ class File_manager:
     
     def save_images(image_paths, images, directory, keep_order=False):
         file_index = 1
+        if not os.path.exists(directory):
+            os.mkdir(directory)
+        
         for image_path, image in zip(image_paths, images):
             filename = os.path.basename(image_path)
             name, ext = os.path.splitext(filename)

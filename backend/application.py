@@ -77,28 +77,33 @@ class Application:
     
     def search(self, objects_json) -> str:
         objects = json.loads(objects_json)["objects"]
+        if len(objects) == 0:
+            objects = list(range(0, len(Model.classes)))
         preset = [p for p in self.presets if p.selected][0]
         image_paths = File_manager.get_image_paths(preset.directories)
-        model_results = self.model.predict(image_paths, self.cache)
+        model_results, self.cache = self.model.predict(image_paths, self.cache)
         nbr_matches_per_image = [ len([bb for bb in res.bounding_boxes if (bb.object in objects and bb.confidence >= preset.options.minimum_confidence)]) for res in model_results ]
         maching_results = [mr for i, mr in enumerate(model_results) if nbr_matches_per_image[i] != 0]
+        nbr_matches_per_image = [n for n in nbr_matches_per_image if n != 0]
         self.history = File_manager.add_history(Search(datetime.now(), preset.name, len(image_paths), len(maching_results), objects))
 
         if preset.options.sort:
-            sorted_indices = [i for i, _ in sorted(enumerate(nbr_matches_per_image), key=lambda n: n[1])]
+            sorted_list = sorted(enumerate(nbr_matches_per_image), key=lambda n: n[1])
+            sorted_list.reverse()
+            sorted_indices = [i for i, _ in sorted_list]
             maching_results = [maching_results[i] for i in sorted_indices]
 
         if preset.options.generate_folder :
             result_folder = self.custom_folder
             if result_folder == "":
-                result_folder = os.path.join(self.settings.default_parent_dict, datetime.now().strftime('%Y-%m-%d at %H-%M-%S'))
+                result_folder = os.path.join(self.settings.default_parent_dict, datetime.now().strftime('%Y-%m-%d at %H-%M-%S')+" "+get_first_3(objects))
                 dummy = result_folder
                 i=0
                 while os.path.exists(result_folder):
                     result_folder = dummy+" "+str(i)
                     i += 1
             if preset.options.overlay_bbxs:
-                images = Model.generate_images_with_boxes(maching_results)
+                images = Model.generate_images_with_boxes(maching_results, objects, preset.options.minimum_confidence)
             else:
                 images = Model.generate_images(maching_results)
             File_manager.save_images([m.image_path for m in maching_results], images, result_folder, keep_order=preset.options.sort)
@@ -108,8 +113,22 @@ class Application:
         }
         return json.dumps(dic, indent=0)
 
+def get_first_3(objects: list[int]) -> str:
+    if len(objects) == 0:
+        return "all"
+    res = Model.classes[objects[0]]
+    if len(objects) == 1:
+        return res
+    if len(objects) == 2:
+        return res + " and " + Model.classes[objects[1]]
+    if len(objects) == 3:
+        return res + ", "+ Model.classes[objects[1]] + " and " + Model.classes[objects[2]]
+    return res + ", "+ Model.classes[objects[1]] + ", " + Model.classes[objects[2]] + "...,"
 
-a = Application()
-a.presets[0].directories.append("C:\\Users\\monji\\Downloads\\a")
-a.presets[0].generate_folder = True
-print(a.search(json.dumps({"objects": [15]}, indent=0)))
+#a = Application()
+#a.presets[0].directories.append("C:\\Users\\monji\\Downloads\\a")
+#a.presets[0].options.generate_folder = True
+#a.presets[0].options.overlay_bbxs = True
+#a.presets[0].options.sort = True
+#a.custom_folder = "C:\\Users\\monji\\Downloads\\a"
+#print(a.search(json.dumps({"objects": []}, indent=4)))

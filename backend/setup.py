@@ -38,4 +38,9 @@ def run_setup():
 
         with open(settings_path, "w") as f:
             json.dump(settings_json, f, indent=4)
+    
+    #//////////////////// Results
+    results_path = os.path.join(os.path.dirname(__file__), "appdata\\results")
+    if not os.path.exists(results_path):
+        os.mkdir(results_path)
 run_setup()

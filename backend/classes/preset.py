@@ -5,7 +5,7 @@ class _Options:
         self.overlay_bbxs: bool = False
         self.sort: bool = False
         self.auto_open: bool = True
-        self.minimum_confidence: float = 0.5
+        self.minimum_confidence: float = 0.3
     def to_dict(self) -> dict:
         return ({
             "generate_folder": self.generate_folder,

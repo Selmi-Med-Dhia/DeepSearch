@@ -4,7 +4,7 @@ import os
 class Settings:
     def __init__(self):
         self.thread_count: int = 1
-        self.default_parent_dict: str = os.path.join(os.path.dirname(__file__), "..", "appdata/results")
+        self.default_parent_dict: str = os.path.join(os.path.dirname(__file__), "..", "appdata\\results")
         self.always_gen_json: bool = False
     def to_dict(self) -> dict:
         return ({

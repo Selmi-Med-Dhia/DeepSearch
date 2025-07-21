@@ -31,8 +31,8 @@ class Model_result:
             dic = json.loads(data)
         return Model_result(
                             dic["image_path"],
+                            [Bounding_box.objectify(bb) for bb in dic["bounding_boxes"]],
                             dic["sha256"],
-                            [Bounding_box.objectify(bb) for bb in dic["bounding_boxes"]]
                             )
     def jsonify(self, indent=4) -> str:
         return json.dumps(self.to_dict(), indent=indent)
