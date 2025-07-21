@@ -1,11 +1,10 @@
 import os
 import json
-from bounding_box import Bounding_box
-from model import Model
-from model_result import Model_result
-from preset import Preset
-from settings import Settings
-from search import Search
+from backend.classes.bounding_box import Bounding_box
+from backend.classes.model_result import Model_result
+from backend.classes.preset import Preset
+from backend.classes.settings import Settings
+from backend.classes.search import Search
 from datetime import datetime
 import hashlib
 import cv2
@@ -123,3 +122,14 @@ class File_manager:
         results_json = [ s.to_dict() for s in search_results]
         with open(path, "w") as f:
             json.dump(results_json, f, indent=4)
+    def get_image_paths(directories) -> list[str]:
+        image_paths = []
+        dirs = directories.copy()
+        i = 0
+        while i < len(dirs):
+            if (os.path.exists(dirs[i])):
+                paths = os.listdir(dirs[i])
+                dirs += [os.path.join(dirs[i], p) for p in paths if os.path.isdir(os.path.join(dirs[i], p))]
+                image_paths += [os.path.join(dirs[i], p) for p in paths if p.lower().endswith(".jpg") or p.lower().endswith(".jpeg") or p.lower().endswith(".png") or p.lower().endswith(".bmp") or p.lower().endswith(".tif") or p.lower().endswith(".tiff")]
+            i += 1
+        return image_paths

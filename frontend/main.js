@@ -22,7 +22,9 @@ function createWindow () {
 }
 
 ///////////server/////////
-const server = spawn('python', ["../backend/server.py"]);
+const server = spawn('python', ["-m", "backend.server"], {
+  cwd: path.resolve(__dirname, '..')
+});
 
 server.stdout.on('data', data=>{
   console.log("stdout " + data);

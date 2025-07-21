@@ -1,10 +1,9 @@
-import PIL.Image
 from ultralytics import YOLO
-from model_result import Model_result
-from bounding_box import Bounding_box
+from backend.classes.model_result import Model_result
+from backend.classes.bounding_box import Bounding_box
 import os
 import cv2
-from file_manager import File_manager
+from backend.classes.file_manager import File_manager
 import numpy
 
 os.environ["ULTRALYTICS_HUB"] = "False"
@@ -69,8 +68,6 @@ class Model:
         for i, c in zip(cached_paths_indecies, cached_results):
             model_results.insert(i, c)
         return model_results
-    def sort(model_results):
-        model_results.sort(key=lambda r: len(r.bounding_boxes))
     
     def generate_images_with_boxes(model_results) -> list[numpy.ndarray]:
         images = []
@@ -83,4 +80,9 @@ class Model:
                 cv2.rectangle(img, (bb.x_min, bb.y_min - text_height - 4), (bb.x_min + text_width, bb.y_min), color=Model.class_colors[bb.object], thickness=-1)
                 cv2.putText(img, label, (bb.x_min, bb.y_min - 2), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(0, 0, 0), thickness=1)
             images.append(img)
+        return images
+    def generate_images(model_results) -> list[numpy.ndarray]:
+        images = []
+        for model_result in model_results:
+            images.append(cv2.imread(model_result.image_path))
         return images
