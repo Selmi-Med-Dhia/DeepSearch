@@ -51,13 +51,13 @@
                         <div class="col cache-button-area" >
                             <br>
                             <br>
-                            <button class="neon-button">Clear only unuseful data</button>&nbsp;&nbsp;...KB
+                            <button class="neon-button" id="clear-bad-cache-btn">Clear only unuseful data</button>&nbsp;&nbsp;<span id="bad-cache"></span>
                             <br>
                             <br>
                             <br>
                             <br>
                             <br>
-                            <button class="neon-button">Clear all cached data</button>&nbsp;&nbsp;...MB, you should only use this if you need the storage space!!
+                            <button class="neon-button" id="clear-all-cache-btn">Clear all cached data</button>&nbsp;&nbsp;<span id="all-cache"></span>, you should only use this if you need the storage space!!
                         </div>
                     </div>
                 </div>
@@ -79,12 +79,12 @@
                 <br>
                 <h5 class="sub-title m-1 ms-3" style="display:inline-block;">Change default parent directory of results</h5>
                 <div style="display: flex; flex-direction: row;margin-top:20px;width:600px;margin-left:30px">
-                    <textarea id="custom-folder-area-settings" class="form-control custom-folder-area" style="flex:1;" rows="1" readonly disabled></textarea>
+                    <textarea id="custom-folder-area-settings" class="form-control custom-folder-area" style="flex:1;" rows="1" readonly></textarea>
                     <button onclick="selectFolder()" class="neon-button ms-2" style="margin-right:10px">Select Folder</button>
                 </div>
                 <br>
-                <input type="checkbox" id="customize-parent-folder-checkbox" class="checkbox" style="margin-left:32px;">
-                <label for="customize-parent-folder-checkbox" class="form-label checkbox-label" style="margin-bottom:25px">Always generate JSON file containing search results</label>
+                <input type="checkbox" id="always-gen-json-checkbox" class="checkbox" style="margin-left:32px;">
+                <label for="always-gen-json-checkbox" class="form-label checkbox-label" style="margin-bottom:25px">Always generate JSON file containing search results</label>
                 <h4 class="sub-title">Feedback</h4>
                 <div class="separator"></div>
                 <p class="feedback-text">A great effort was put to making this app as neat and practicle as users would find enjoyable, if you think we did a good job at that or want to share a suggession to better your experience, you can send us your feedback here:</p>
@@ -111,21 +111,7 @@
                         <th>number of resutls</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                        <td>Row 1 Col 1</td>
-                        <td>Row 1 Col 2</td>
-                        <td>Row 1 Col 3</td>
-                        <td>Row 1 Col 4</td>
-                        <td>Row 1 Col 5</td>
-                        </tr>
-                        <tr>
-                        <td>Row 2 Col 1</td>
-                        <td>Row 2 Col 2</td>
-                        <td>Row 2 Col 3</td>
-                        <td>Row 2 Col 4</td>
-                        <td>Row 2 Col 5</td>
-                        </tr>
+                    <tbody id="history-table-body">
                     </tbody>
                     </table>
             </div>

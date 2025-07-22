@@ -132,11 +132,3 @@ def get_first_3(objects: list[int]) -> str:
     if len(objects) == 3:
         return res + ", "+ Model.classes[objects[1]] + " and " + Model.classes[objects[2]]
     return res + ", "+ Model.classes[objects[1]] + ", " + Model.classes[objects[2]] + "...,"
-
-#a = Application()
-#a.presets[0].directories.append("C:\\Users\\monji\\Downloads\\a")
-#a.presets[0].options.generate_folder = True
-#a.presets[0].options.overlay_bbxs = True
-#a.presets[0].options.sort = True
-#a.custom_folder = "C:\\Users\\monji\\Downloads\\a"
-#print(a.search(json.dumps({"objects": []}, indent=4)))

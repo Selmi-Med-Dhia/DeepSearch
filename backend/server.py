@@ -18,12 +18,12 @@ def get_cache_size():
 @app.route('/customfolder/remove', methods=['GET'])
 def remove_custom_folder():
     application.remove_custom_folder()
-    return "ok"
+    return jsonify(message="ok"), 200
 
 @app.route('/cache/clearall', methods=['GET'])
 def clear_all_cache():
     application.clear_all_cache()
-    return "ok"
+    return jsonify(message="ok"), 200
 
 @app.route('/cache/clearbad', methods=['GET'])
 def clear_bad_cache():
@@ -33,32 +33,32 @@ def clear_bad_cache():
 @app.route('/updatesettings', methods=['POST'])
 def update_settings():
     application.update_settings( request.data.decode('utf-8'))
-    return "ok", 200
+    return jsonify(message="ok"), 200
 
 @app.route('/sendfeedback', methods=['POST'])
 def send_feedback():
     application.send_feedback( request.data.decode('utf-8'))
-    return "ok", 200
+    return jsonify(message="ok"), 200
 
 @app.route('/preset/select', methods=['POST'])
 def select_preset():
     application.select_preset( request.data.decode('utf-8'))
-    return "ok", 200
+    return jsonify(message="ok"), 200
 
 @app.route('/preset/update', methods=['POST'])
 def update_preset():
     application.update_preset( request.data.decode('utf-8'))
-    return "ok", 200
+    return jsonify(message="ok"), 200
 
 @app.route('/customfolder/add', methods=['POST'])
 def add_custom_folder():
     application.add_custom_folder( request.data.decode('utf-8'))
-    return "", 200
+    return jsonify(message="ok"), 200
 
 @app.route('/openfolder', methods=['POST'])
 def open_folder():
     application.open_folder( request.data.decode('utf-8'))
-    return "", 200
+    return jsonify(message="ok"), 200
 
 @app.route('/search', methods=['POST'])
 def search():
