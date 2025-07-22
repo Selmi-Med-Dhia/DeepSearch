@@ -25,7 +25,6 @@ class Application:
     def jsonify(self, indent=4) -> str:
         dic = {}
         dic["presets"] = [ preset.to_dict() for preset in self.presets]
-        dic["cache"] = [ c.to_dict() for c in self.cache]
         dic["history"] = [s.to_dict() for s in self.history]
         dic["settings"] = self.settings.to_dict()
         dic["class_names"] = self.model.classes
@@ -75,6 +74,9 @@ class Application:
     def remove_custom_folder(self):
         self.custom_folder = ""
     
+    def open_folder(self, path_json):
+        File_manager.open_folder(json.loads(path_json)["path"])
+    
     def search(self, objects_json) -> str:
         objects = json.loads(objects_json)["objects"]
         if len(objects) == 0:
@@ -107,14 +109,20 @@ class Application:
             else:
                 images = Model.generate_images(maching_results)
             File_manager.save_images([m.image_path for m in maching_results], images, result_folder, keep_order=preset.options.sort)
+        if self.settings.always_gen_json :
+            json_file_path = os.path.join(self.settings.default_parent_dict, datetime.now().strftime('%Y-%m-%d at %H-%M-%S')+" "+get_first_3(objects)+".json")
+            File_manager.generate_JSON_file(json_file_path, maching_results)
         dic = {
             "results" : [m.to_dict() for m in maching_results],
             "history" : [s.to_dict() for s in self.history]
         }
+
+        if preset.options.auto_open:
+            File_manager.open_folder(result_folder)
         return json.dumps(dic, indent=0)
 
 def get_first_3(objects: list[int]) -> str:
-    if len(objects) == 0:
+    if len(objects) == len(Model.classes):
         return "all"
     res = Model.classes[objects[0]]
     if len(objects) == 1:

@@ -1,5 +1,7 @@
 import os
 import json
+import platform
+import subprocess
 from backend.classes.bounding_box import Bounding_box
 from backend.classes.model_result import Model_result
 from backend.classes.preset import Preset
@@ -55,10 +57,12 @@ class File_manager:
     def get_bad_cache_volume() -> float:
         cache = File_manager.get_cache()
         total_size = len(cache)
+        if total_size == 0:
+            return 0.0
         for i, search_result in enumerate(cache):
             if not os.path.exists(search_result.image_path) or File_manager.sha256(search_result.image_path) != search_result.sha256 :
                 cache.pop(i)
-        bad_size = float(len(cache))
+        bad_size = float(total_size - len(cache))
         return File_manager.get_cache_volume()*(bad_size/total_size)
 
     def get_history() -> list[Search]:
@@ -125,6 +129,7 @@ class File_manager:
         results_json = [ s.to_dict() for s in search_results]
         with open(path, "w") as f:
             json.dump(results_json, f, indent=4)
+    
     def get_image_paths(directories) -> list[str]:
         image_paths = []
         dirs = directories.copy()
@@ -136,3 +141,11 @@ class File_manager:
                 image_paths += [os.path.join(dirs[i], p) for p in paths if p.lower().endswith(".jpg") or p.lower().endswith(".jpeg") or p.lower().endswith(".png") or p.lower().endswith(".bmp") or p.lower().endswith(".tif") or p.lower().endswith(".tiff")]
             i += 1
         return image_paths
+    
+    def open_folder(path):
+        if platform.system() == "Windows":
+            os.startfile(path)
+        elif platform.system() == "Darwin":
+            subprocess.run(["open", path])
+        else:
+            subprocess.run(["xdg-open", path])
