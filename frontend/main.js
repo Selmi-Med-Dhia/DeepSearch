@@ -18,7 +18,7 @@ function createWindow () {
 
   win.loadFile('index.html');
   console.log("Electron is running!");
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
 }
 
 ///////////server/////////
@@ -27,7 +27,8 @@ const server = spawn('python', ["-m", "backend.server"], {
 });
 
 server.stdout.on('data', data=>{
-  console.log("stdout " + data);
+  const message = data.toString().trim();
+  console.log(`Server stdout: ${message}`);
 });
 server.stderr.on('data', data=>{
   console.log("stderr " + data);
@@ -39,9 +40,7 @@ server.on('close', code=>{
 app.on('quit', () => {
   server.kill();
 });
-///////////////////////
-
-app.whenReady().then(createWindow);
+/////////////////////////
 
 ipcMain.handle('select-folder', async () => {
   const result = await dialog.showOpenDialog({
@@ -52,3 +51,5 @@ ipcMain.handle('select-folder', async () => {
   }
   return null;
 });
+
+app.whenReady().then(createWindow);

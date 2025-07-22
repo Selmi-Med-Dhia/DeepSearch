@@ -11,6 +11,16 @@
         <title>DeepSearch</title>
     </head>
     <body>
+        <div class="veil">
+            <div class="loader">
+                <div class="arc arc1"></div>
+                <div class="arc arc2"></div>
+                <div class="arc arc3"></div>
+                <div class="arc arc4"></div>
+                <div class="arc arc5"></div>
+                <div class="arc arc6"></div>
+            </div>
+        </div>
         <div class="sidebar1" id="sidebar1">
             <div style="position: sticky; top: 0; z-index: 1000; display:inline-block;" class="p-0 m-0">
                 <button class="mb-2 flat sticky" id="settings-home-button">
@@ -193,17 +203,17 @@
                             <div style="display: flex; flex-direction: row;">
                                 &nbsp;&nbsp;<b style="letter-spacing:-1px;">|__</b>&nbsp;
                                 <textarea id="custom-folder-area" class="form-control custom-folder-area" style="flex:1;" rows="1" readonly disabled></textarea>
-                                <button onclick="selectFolder()" class="neon-button ms-2" style="margin-right:10px" disabled>Select Folder</button>
+                                <button onclick="selectFolder()" id="select-folder-button" class="neon-button ms-2" style="margin-right:10px" disabled>Select Folder</button>
                             </div>
                             <br>
                             <input type="checkbox" id="add-bbs-checkbox" class="checkbox">
                             <label for="add-bbs-checkbox" class="form-label checkbox-label">Overlay bounding boxes on images</label>
                             <br>
-                            <input type="checkbox" id="sort-checkbox" class="checkbox">
-                            <label for="sort-checkbox" class="form-label checkbox-label">Sort by number of relevent objects</label>
-                            <br>
                             <input type="checkbox" id="auto-open-checkbox" class="checkbox">
                             <label for="auto-open-checkbox" class="form-label checkbox-label">Automatically open target folder</label>
+                            <br>
+                            <input type="checkbox" id="sort-checkbox" class="checkbox">
+                            <label for="sort-checkbox" class="form-label checkbox-label">Sort by number of relevent objects</label>
                             <br>
                             <label for="min-confidence-input" class="form-label checkbox-label ps-4" style="padding-left: 29px !important;">Minimum confidence threshold:</label>
                             <input type="text" id="min-confidence-input" class="min-confidence-input" value="0.5">

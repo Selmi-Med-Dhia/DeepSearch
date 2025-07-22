@@ -64,5 +64,9 @@ def open_folder():
 def search():
     return(application.search( request.data.decode('utf-8')), 200)
 
+@app.route('/are/you/running', methods=['GET'])
+def am_I_running():
+    return jsonify(message="ok"), 200
+
 if __name__ == "__main__":
     app.run(port=5000)

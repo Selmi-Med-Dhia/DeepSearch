@@ -11,6 +11,13 @@ $(function () {
     $('#objectSelector').select2({});
 });
 
+
+//list of presets
+//index of selected preset
+//generated folder
+//settings
+//history
+
 async function selectFolder() {
   const folderPath = await ipcRenderer.invoke('select-folder');
   if (folderPath) {
@@ -77,6 +84,91 @@ function updateSliderBackground() {
     #aaa 100%)`;
 }
 
+function coherent_checkboxes(e=null){
+  generate_folder_checkbox = document.getElementById("generate-folder-checkbox");
+  customize_folder_checkbox = document.getElementById("customize-folder-checkbox");
+  add_bbs_checkbox = document.getElementById("add-bbs-checkbox");
+  auto_open_checkbox = document.getElementById("auto-open-checkbox");
+
+  state = generate_folder_checkbox.checked
+
+  customize_folder_checkbox.disabled = !state
+  add_bbs_checkbox.disabled = !state
+  auto_open_checkbox.disabled = !state
+  
+  if (!state){
+    customize_folder_checkbox.checked = false
+    add_bbs_checkbox.checked = false
+    auto_open_checkbox.checked = false
+  }
+  //TODO: update local variables
+}
+
+function coherent_custom_folder_area(e=null){
+  customize_folder_checkbox = document.getElementById("customize-folder-checkbox");
+  custom_folder_area = document.getElementById("custom-folder-area");
+  select_folder_button = document.getElementById("select-folder-button");
+
+  state = customize_folder_checkbox.checked
+
+  custom_folder_area.disabled = !state
+  select_folder_button.disabled = !state
+  //TODO: update local variables
+}
+
+
+async function waitForServer() {
+  while (true) {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/are/you/running');
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Server is up:", data.message);
+        break;
+      }
+    } catch (err) {
+      console.log("Server not ready yet...");
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 500));
+  }
+}
+
+(async () => {
+  await waitForServer();
+  veil = document.querySelector(".veil");
+  for(i=0;i<10;i++){
+    veil.style.opacity = String((9.0-i)/10);
+    await new Promise(resolve => setTimeout(resolve, 50));
+  }
+  veil.remove()
+})();
+
+
+coherent_checkboxes()
+coherent_custom_folder_area()
+document.getElementById("generate-folder-checkbox").addEventListener("change", e => coherent_checkboxes(e))
+document.getElementById("customize-folder-checkbox").addEventListener("change", e => coherent_custom_folder_area(e))
+document.getElementById("min-confidence-input").addEventListener("keyup", e => {
+  input = document.getElementById("min-confidence-input");
+  const new_value = parseFloat(input)
+  if (!isNaN(new_value) && new_value >= 0.1 && new_value <=0.95){
+    //TODO: update old value
+  }
+  else{
+    //TODO: rollback to previous value
+  }
+})
+
+document.getElementById("presets-menu").addEventListener("click", e => {
+  if (e.target.classList.contains("preset")){
+    preset = e.target;
+    //TODO: deactivate all other presets
+    preset.classList.toggle("active")
+  }
+})
+
+/*
 fetch('http://127.0.0.1:5000/', {
   method: 'GET',
 })
@@ -87,3 +179,4 @@ fetch('http://127.0.0.1:5000/', {
 .catch(error => {
   console.log('Error: '+error);
 })
+*/
