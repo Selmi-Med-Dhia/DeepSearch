@@ -94,7 +94,7 @@ class Application:
             sorted_list.reverse()
             sorted_indices = [i for i, _ in sorted_list]
             maching_results = [maching_results[i] for i in sorted_indices]
-
+        result_folder = ""
         if preset.options.generate_folder :
             result_folder = self.custom_folder
             if result_folder == "":
@@ -114,7 +114,8 @@ class Application:
             File_manager.generate_JSON_file(json_file_path, maching_results)
         dic = {
             "results" : [m.to_dict() for m in maching_results],
-            "history" : [s.to_dict() for s in self.history]
+            "history" : [s.to_dict() for s in self.history],
+            "result_folder" : result_folder
         }
 
         if preset.options.auto_open:
