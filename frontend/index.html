@@ -80,7 +80,7 @@
                 <h5 class="sub-title m-1 ms-3" style="display:inline-block;">Change default parent directory of results</h5>
                 <div style="display: flex; flex-direction: row;margin-top:20px;width:600px;margin-left:30px">
                     <textarea id="custom-folder-area-settings" class="form-control custom-folder-area" style="flex:1;" rows="1" readonly></textarea>
-                    <button onclick="selectFolder()" class="neon-button ms-2" style="margin-right:10px">Select Folder</button>
+                    <button onclick="selectFolder(3)" class="neon-button ms-2" style="margin-right:10px">Select Folder</button>
                 </div>
                 <br>
                 <input type="checkbox" id="always-gen-json-checkbox" class="checkbox" style="margin-left:32px;">
@@ -89,7 +89,7 @@
                 <div class="separator"></div>
                 <p class="feedback-text">A great effort was put to making this app as neat and practicle as users would find enjoyable, if you think we did a good job at that or want to share a suggession to better your experience, you can send us your feedback here:</p>
                 <textarea id="feedback-text-area" class="form-control feedback-text-area"></textarea>
-                <button class="neon-button feedback-button">Send</button>
+                <button class="neon-button feedback-button" id="feedback-btn">Send</button>
             </div>
         </div>
 
@@ -175,7 +175,7 @@
                             <textarea id="directories-area" class="form-control directories-area" rows="4" disabled>
                             </textarea>
                             <br>
-                            <button onclick="selectFolder()" class="neon-button">Add Folder</button>
+                            <button onclick="selectFolder(1)" class="neon-button">Add Folder</button>
                             <button class="neon-button" style="float:right; margin-right:5%">Search</button>
                         </div>
                         <div class="options-area col-md-6 ps-2">
@@ -189,7 +189,7 @@
                             <div style="display: flex; flex-direction: row;">
                                 &nbsp;&nbsp;<b style="letter-spacing:-1px;">|__</b>&nbsp;
                                 <textarea id="custom-folder-area" class="form-control custom-folder-area" style="flex:1;" rows="1" readonly disabled></textarea>
-                                <button onclick="selectFolder()" id="select-folder-button" class="neon-button ms-2" style="margin-right:10px" disabled>Select Folder</button>
+                                <button onclick="selectFolder(2)" id="select-folder-button" class="neon-button ms-2" style="margin-right:10px" disabled>Select Folder</button>
                             </div>
                             <br>
                             <input type="checkbox" id="add-bbs-checkbox" class="checkbox">

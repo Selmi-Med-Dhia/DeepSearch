@@ -640,7 +640,7 @@ input[type="range"]::-moz-range-track {
   padding: 0;
   font-size: 1.1em;
 }
-.feedback-text-area, .feedback-text-area:focus{
+.feedback-text-area, .feedback-text-area:focus, .feedback-text-area:disabled{
   margin-left: 20px;
   height: 200px;
   width:calc(60% - 20px);
@@ -652,6 +652,10 @@ input[type="range"]::-moz-range-track {
   resize: none;
   border: 1px solid #444;
   outline: 0;
+}
+.feedback-text-area:disabled{
+  font-size: 30px;
+  text-decoration: bold;
 }
 .feedback-text-area:focus{
   box-shadow: 0 0 4px #2cff2c !important;

@@ -15,14 +15,31 @@ $(function () {
 let presets = [];
 let selected_preset = 0;
 let generated_folder = "";
+let custom_result_folder = "";
 let settings = [];
 let history = [];
 let class_names = [];
 
-async function selectFolder() {
-  const folderPath = await ipcRenderer.invoke('select-folder');
-  if (folderPath) {
-    console.log('Selected folder:', folderPath);
+async function selectFolder(source) {
+  const path = await ipcRenderer.invoke('select-folder');
+  if (path) {
+    if (source == 1){//add folder
+      let preset = presets[selected_preset];
+      if (!preset.directories.includes(path)){
+        preset.directories.push(path);
+        document.getElementById("directories-area").value = preset.directories.join('\n');
+        update_preset(preset);
+      }
+    }else if (source == 2){//customize folder
+      add_custom_result_folder(path);
+      document.getElementById("custom-folder-area").value = path;
+    }else{//customize parent folder
+      if (settings.default_parent_dict != path){
+        settings.default_parent_dict = path;
+        document.getElementById("custom-folder-area-settings").value = path;
+        update_settings(settings);
+      }
+    }
   }
 }
 
@@ -114,7 +131,11 @@ function coherent_custom_folder_area(e=null){
 
   custom_folder_area.disabled = !state
   select_folder_button.disabled = !state
-  //TODO: update local variables
+  if (!state){
+    custom_folder_area.value = "";
+    custom_result_folder = "";
+    remove_custom_result_folder();
+  }
 }
 
 
@@ -163,6 +184,7 @@ async function waitForServer() {
   update_cache();
   document.getElementById("clear-bad-cache-btn").addEventListener("click", e => clear_bad_cache());
   document.getElementById("clear-all-cache-btn").addEventListener("click", e => clear_all_cache());
+  document.getElementById("feedback-btn").addEventListener("click",async e => send_feedback());
   document.getElementById("custom-slider").addEventListener("change", e => {
     settings.thread_count = parseInt(document.getElementById("custom-slider").value);
     update_settings(settings);
@@ -212,7 +234,6 @@ function load_preset(preset){
   
   document.getElementById("directories-area").value = preset.directories.join('\n') ;
 }
-
 function load_history(hist){
   history_table_body = document.getElementById("history-table-body");
   for(i=0; i < hist.length; i++){
@@ -344,6 +365,89 @@ function update_settings(sett){
   .then(response => response.json())
   .then(data => {
     console.log('Success:', data);
+  })
+  .catch(error => {
+    console.log('Error: '+error);
+  })
+}
+function update_preset(preset){
+  fetch('http://127.0.0.1:5000/preset/update', {
+    method: 'POST',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(preset)
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Success:', data);
+  })
+  .catch(error => {
+    console.log('Error: '+error);
+  })
+}
+async function send_feedback(){
+  let textarea = document.getElementById("feedback-text-area");
+  let feedback_btn = document.getElementById("feedback-btn");
+  content = textarea.value;
+  textarea.value = "Thank you.";
+  textarea.disabled = true;
+  feedback_btn.disabled = true;
+  if (content != ""){
+    await fetch('http://127.0.0.1:5000/sendfeedback', {
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({"content": content})
+    })
+    .then(response => response.json())
+    .then(async data => {
+      console.log('Success:', data);
+      await new Promise(resolve => setTimeout(resolve, 200))
+      .then(async () => {
+        textarea.value = "Thank you..";
+        await new Promise(resolve => setTimeout(resolve, 400))
+        .then(async () => {
+          textarea.value = "Thank you...";
+          await new Promise(resolve => setTimeout(resolve, 400))
+          .then(() => {
+            textarea.value = "";
+            textarea.disabled = false;
+            feedback_btn.disabled = false;
+          })
+        })
+      })
+
+    })
+    .catch(error => {
+      console.log('Error: '+error);
+    })
+  }
+}
+function add_custom_result_folder(path){
+  fetch('http://127.0.0.1:5000/customfolder/add', {
+    method: 'POST',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"path": path})
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Success:', data);
+  })
+  .catch(error => {
+    console.log('Error: '+error);
+  })
+}
+function remove_custom_result_folder(){
+  fetch('http://127.0.0.1:5000//customfolder/remove', {
+    method: 'GET',
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log("Success"+data);
   })
   .catch(error => {
     console.log('Error: '+error);
