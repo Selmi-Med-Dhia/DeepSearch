@@ -113,13 +113,17 @@ function coherent_checkboxes(e=null){
   customize_folder_checkbox.disabled = !state
   add_bbs_checkbox.disabled = !state
   auto_open_checkbox.disabled = !state
-  
+
   if (!state){
     customize_folder_checkbox.checked = false
     add_bbs_checkbox.checked = false
     auto_open_checkbox.checked = false
+    coherent_custom_folder_area();
   }
-  //TODO: update local variables
+  presets[selected_preset].options.generate_folder = state;
+  presets[selected_preset].options.overlay_bbxs = add_bbs_checkbox.checked;
+  presets[selected_preset].options.auto_open = auto_open_checkbox.checked;
+  update_preset(presets[selected_preset]);
 }
 
 function coherent_custom_folder_area(e=null){
@@ -131,13 +135,12 @@ function coherent_custom_folder_area(e=null){
 
   custom_folder_area.disabled = !state
   select_folder_button.disabled = !state
-  if (!state){
+  if (!state && custom_folder_area.value != ""){
     custom_folder_area.value = "";
     custom_result_folder = "";
     remove_custom_result_folder();
   }
 }
-
 
 async function waitForServer() {
   while (true) {
@@ -193,6 +196,64 @@ async function waitForServer() {
     settings.always_gen_json = document.getElementById("always-gen-json-checkbox").checked;
     update_settings(settings);
   })
+  document.getElementById("add-bbs-checkbox").addEventListener("change", e => {
+    if (presets[selected_preset].options.overlay_bbxs != document.getElementById("add-bbs-checkbox").checked){
+      presets[selected_preset].options.overlay_bbxs = document.getElementById("add-bbs-checkbox").checked;
+      update_preset(presets[selected_preset]);
+    }
+  })
+  document.getElementById("auto-open-checkbox").addEventListener("change", e => {
+    if (presets[selected_preset].options.auto_open != document.getElementById("auto-open-checkbox").checked){
+      presets[selected_preset].options.auto_open = document.getElementById("auto-open-checkbox").checked;
+      update_preset(presets[selected_preset]);
+    }
+  })
+  document.getElementById("sort-checkbox").addEventListener("change", e => {
+    if (presets[selected_preset].options.sort != document.getElementById("sort-checkbox").checked){
+      presets[selected_preset].options.sort = document.getElementById("sort-checkbox").checked;
+      update_preset(presets[selected_preset]);
+    }
+  })
+
+  document.getElementById("generate-folder-checkbox").addEventListener("change", e => coherent_checkboxes(e));
+  document.getElementById("customize-folder-checkbox").addEventListener("change", e => coherent_custom_folder_area(e));
+  document.getElementById("min-confidence-input").addEventListener("change", e => {
+    input = document.getElementById("min-confidence-input");
+    const new_value = parseFloat(input.value)
+    if (!isNaN(new_value) && new_value >= 0.1 && new_value <=0.95){
+      presets[selected_preset].options.minimum_confidence = new_value;
+      update_preset(presets[selected_preset]);
+    }
+    else{
+      input.value = presets[selected_preset].options.minimum_confidence;
+    }
+  })
+
+  document.getElementById("presets-menu").addEventListener("click", e => {
+    if (e.target.classList.contains("preset")){
+      preset = e.target;
+      //TODO: deactivate all other presets
+      preset.classList.toggle("active")
+    }
+  })
+
+  document.getElementById("default-btn").addEventListener("click", e => {
+    document.getElementById("generate-folder-checkbox").checked = true;
+    document.getElementById("customize-folder-checkbox").checked = false;
+    document.getElementById("add-bbs-checkbox").checked = false;
+    document.getElementById("auto-open-checkbox").checked = true;
+    document.getElementById("sort-checkbox").checked = false;
+    document.getElementById("min-confidence-input").value = "0.3";
+    presets[selected_preset].options.generate_folder = true;
+    presets[selected_preset].options.overlay_bbxs = false;
+    presets[selected_preset].options.auto_open = true;
+    presets[selected_preset].options.sort = false;
+    presets[selected_preset].options.minimum_confidence = 0.3;
+
+    coherent_custom_folder_area();
+    update_preset(presets[selected_preset]);
+  })
+
   coherent_checkboxes();
   coherent_custom_folder_area();
 
@@ -203,27 +264,6 @@ async function waitForServer() {
   }
   veil.remove();
 })();
-
-document.getElementById("generate-folder-checkbox").addEventListener("change", e => coherent_checkboxes(e));
-document.getElementById("customize-folder-checkbox").addEventListener("change", e => coherent_custom_folder_area(e));
-document.getElementById("min-confidence-input").addEventListener("keyup", e => {
-  input = document.getElementById("min-confidence-input");
-  const new_value = parseFloat(input)
-  if (!isNaN(new_value) && new_value >= 0.1 && new_value <=0.95){
-    //TODO: update old value
-  }
-  else{
-    //TODO: rollback to previous value
-  }
-})
-
-document.getElementById("presets-menu").addEventListener("click", e => {
-  if (e.target.classList.contains("preset")){
-    preset = e.target;
-    //TODO: deactivate all other presets
-    preset.classList.toggle("active")
-  }
-})
 
 function load_preset(preset){
   document.getElementById("generate-folder-checkbox").checked = preset.options.generate_folder ;
@@ -442,7 +482,7 @@ function add_custom_result_folder(path){
   })
 }
 function remove_custom_result_folder(){
-  fetch('http://127.0.0.1:5000//customfolder/remove', {
+  fetch('http://127.0.0.1:5000/customfolder/remove', {
     method: 'GET',
   })
   .then(response => response.json())
