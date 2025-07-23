@@ -14,6 +14,7 @@ $(function () {
 
 let presets = [];
 let selected_preset = 0;
+let presets_html = [];
 let generated_folder = "";
 let custom_result_folder = "";
 let settings = [];
@@ -181,6 +182,20 @@ async function waitForServer() {
     console.log('Error: '+error);
   })
   
+  presets_menu = document.getElementById("presets-menu");
+  for(i=0; i<presets.length; i++){
+    pr = document.createElement("div");
+    pr.textContent = presets[i].name;
+    pr.classList.add("preset");
+    if (i == 0){
+      pr.classList.add("first");
+    }
+    if (i == selected_preset){
+      pr.classList.add("active");
+    }
+    presets_menu.appendChild(pr);
+    presets_html.push(pr);
+  }
   load_preset(presets[selected_preset]);
   load_history(history);
   load_settings(settings);
@@ -232,8 +247,17 @@ async function waitForServer() {
   document.getElementById("presets-menu").addEventListener("click", e => {
     if (e.target.classList.contains("preset")){
       preset = e.target;
-      //TODO: deactivate all other presets
-      preset.classList.toggle("active")
+      for(i=0; i<presets.length; i++){
+        if (presets_html[i] == preset && i != selected_preset){
+          presets_html[selected_preset].classList.toggle("active");
+          presets[selected_preset].selected = false;
+          presets[i].selected = true;
+          selected_preset = i;
+          preset.classList.toggle("active");
+          select_preset(presets[selected_preset].name);
+          load_preset(presets[selected_preset]);
+        }
+      }
     }
   })
 
@@ -273,6 +297,8 @@ function load_preset(preset){
   document.getElementById("min-confidence-input").value = String(preset.options.minimum_confidence) ;
   
   document.getElementById("directories-area").value = preset.directories.join('\n') ;
+  coherent_checkboxes();
+  coherent_custom_folder_area();
 }
 function load_history(hist){
   history_table_body = document.getElementById("history-table-body");
@@ -488,6 +514,22 @@ function remove_custom_result_folder(){
   .then(response => response.json())
   .then(data => {
     console.log("Success"+data);
+  })
+  .catch(error => {
+    console.log('Error: '+error);
+  })
+}
+function select_preset(name){
+  fetch('http://127.0.0.1:5000/preset/select', {
+    method: 'POST',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"name": name})
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Success:', data);
   })
   .catch(error => {
     console.log('Error: '+error);
