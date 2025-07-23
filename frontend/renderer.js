@@ -181,7 +181,7 @@ async function waitForServer() {
   .catch(error => {
     console.log('Error: '+error);
   })
-  
+  ///// loading presets how ever many there are
   presets_menu = document.getElementById("presets-menu");
   for(i=0; i<presets.length; i++){
     pr = document.createElement("div");
@@ -195,6 +195,15 @@ async function waitForServer() {
     }
     presets_menu.appendChild(pr);
     presets_html.push(pr);
+  }
+
+  ////// loading class names
+  object_selector = document.getElementById("objectSelector");
+  for(i=0; i < class_names.length; i++){
+    option = document.createElement("option");
+    option.value = i;
+    option.textContent = class_names[i];
+    object_selector.appendChild(option);
   }
   load_preset(presets[selected_preset]);
   load_history(history);
@@ -260,7 +269,34 @@ async function waitForServer() {
       }
     }
   })
-
+  document.getElementById("directories-area").addEventListener("mouseup", e => {
+    if (e.button == 0 || e.button == 2){
+      textarea_div = document.getElementById("directories-area-div");
+      textarea = document.getElementById("directories-area");
+      const pos = textarea.selectionStart;
+      const textBeforeCursor = textarea.value.slice(0, pos);
+      const lineNumber = textBeforeCursor.split('\n').length;
+      const parentRect = textarea_div.getBoundingClientRect();
+      if (e.y - parentRect.top < presets[selected_preset].directories.length * 25 + 10 ){
+        badge = document.createElement("div");
+        badge.classList.add("badge");
+        badge.style.left = (e.x - parentRect.left - 2) + "px";
+        badge.style.top = (e.y - parentRect.top - 2) + "px";
+        badge.textContent = "Remove folder";
+        textarea_div.appendChild(badge);
+        badge.addEventListener("mouseout", e => {
+          badge.remove();
+        })
+        badge.addEventListener("click", e => {
+          badge.remove();
+          presets[selected_preset].directories.splice(lineNumber-1, 1);
+          textarea.value = presets[selected_preset].directories.join('\n');
+          console.log(lineNumber);
+          update_preset(presets[selected_preset]);
+        })
+      }
+    }
+  })
   document.getElementById("default-btn").addEventListener("click", e => {
     document.getElementById("generate-folder-checkbox").checked = true;
     document.getElementById("customize-folder-checkbox").checked = false;

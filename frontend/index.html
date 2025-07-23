@@ -135,21 +135,14 @@
                             <label for="search-input" class="form-label label">Searching for...</label>
                             <br>
                             <select id="objectSelector" multiple="multiple" style="width:95%">
-                                <option value="1">Green</option>
-                                <option value="2">Blue</option>
-                                <option value="3">Red</option>
-                                <option value="1">Green</option>
-                                <option value="2">Blue</option>
-                                <option value="3">Red</option>
-                                <option value="1">Green</option>
-                                <option value="2">Blue</option>
-                                <option value="3">Red</option>
                             </select>
                             <br>
                             <label for="search-input" class="form-label label pt-3">In...</label>
                             <br>
-                            <textarea id="directories-area" class="form-control directories-area" rows="4" disabled>
-                            </textarea>
+                            <div class="p-0 m-0" id="directories-area-div" style="position: relative;">
+                                <textarea id="directories-area" class="form-control directories-area" rows="4" readonly>
+                                </textarea>
+                            </div>
                             <br>
                             <button onclick="selectFolder(1)" class="neon-button">Add Folder</button>
                             <button class="neon-button" style="float:right; margin-right:5%">Search</button>
