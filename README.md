@@ -1,4 +1,4 @@
-# 📸 DeepSeach
+# <img width="31" height="31" alt="logo" src="https://github.com/user-attachments/assets/49e32cd6-eaad-49a2-9ed5-8802577764f6" /> DeepSeach
 
 Tired of scrolling through hundreds of unorganized, unlabeled images just to find one picture with a specific object or objects? **DeepSearch** is your solution.
 
