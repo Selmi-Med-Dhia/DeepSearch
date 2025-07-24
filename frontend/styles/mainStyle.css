@@ -701,7 +701,7 @@ input[type="range"]::-moz-range-track {
   float: right;
   margin-right: 40%;
   margin-top: 10px;
-  margin-bottom: 100px;
+  margin-bottom: 10px;
 }
 .sidebar2-main-body{
   padding:0;
@@ -827,4 +827,12 @@ table.history-table {
   font-size: 1.2em;
   padding-top: 50px;
   display: none;
+}
+.credits{
+  margin-left: 20px;
+  color: white;
+  font-family: 'Rajdhani', sans-serif;
+  text-decoration: bold;
+  font-size: 1.05em;
+  opacity: 0.75;
 }

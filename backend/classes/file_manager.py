@@ -27,6 +27,12 @@ class File_manager:
             cache = [Model_result.objectify(m) for m in cache_list]
         return cache
     
+    def get_settings() -> Settings:
+        with open(settings_path, "r") as f:
+            json_data = f.read()
+            sett = Settings.objectify(json_data)
+        return sett
+
     def add_cache(search_results: list[Model_result]) -> list[Model_result]:
         cache = File_manager.get_cache()
         cache += search_results

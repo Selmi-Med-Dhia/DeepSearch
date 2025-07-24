@@ -21,12 +21,13 @@ let class_names = [];
 
 async function selectFolder(source) {
   const path = await ipcRenderer.invoke('select-folder');
+  console.log(path);
   if (path) {
     if (source == 1){//add folder
       let preset = presets[selected_preset];
       is_a_son = false;
       for(const dir of preset.directories){
-        if (path.includes(dir)){
+        if (path.includes(dir+"\\")){
           is_a_son = true;
           break;
         }

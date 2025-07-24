@@ -2,6 +2,7 @@ import os
 import json
 from backend.classes.preset import Preset
 from backend.classes.settings import Settings
+from backend.classes.file_manager import File_manager
 
 def run_setup():
     #//////////////////// appdata/data
@@ -40,7 +41,8 @@ def run_setup():
             json.dump(settings_json, f, indent=4)
     
     #//////////////////// Results
-    results_path = os.path.join(os.path.dirname(__file__), "appdata\\results")
+    settings = File_manager.get_settings()
+    results_path = settings.default_parent_dict
     if not os.path.exists(results_path):
-        os.mkdir(results_path)
+        os.makedirs(results_path)
 run_setup()
