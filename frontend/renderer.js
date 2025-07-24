@@ -67,6 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     isAnimating = true;
     sidebar.classList.toggle('active');
+    let scrollStep = 10;
+    let scrollInterval = setInterval(() => {
+      sidebar.scrollTop -= scrollStep;
+      if (sidebar.scrollTop <= 0) {
+        clearInterval(scrollInterval);
+      }
+    }, 2);
 
     setTimeout(() => {
       isAnimating = false;
@@ -89,7 +96,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     isAnimating = true;
     sidebar.classList.toggle('active');
-
+    let scrollStep = 10;
+    let scrollInterval = setInterval(() => {
+      sidebar.scrollTop -= scrollStep;
+      if (sidebar.scrollTop <= 0) {
+        clearInterval(scrollInterval);
+      }
+    }, 2);
+    
     setTimeout(() => {
       isAnimating = false;
     }, 500);
