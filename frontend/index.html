@@ -137,7 +137,7 @@
                             <select id="objectSelector" multiple="multiple" style="width:95%">
                             </select>
                             <br>
-                            <label for="search-input" class="form-label label pt-3">In...</label>
+                            <label for="search-input" class="form-label label pt-1">In...</label>
                             <br>
                             <div class="p-0 m-0" id="directories-area-div" style="position: relative;">
                                 <textarea id="directories-area" class="form-control directories-area" rows="4" readonly>
@@ -145,7 +145,7 @@
                             </div>
                             <br>
                             <button onclick="selectFolder(1)" class="neon-button">Add Folder</button>
-                            <button class="neon-button" style="float:right; margin-right:5%">Search</button>
+                            <button class="neon-button" id="search-btn" style="float:right; margin-right:5%">Search</button>
                         </div>
                         <div class="options-area col-md-6 ps-2">
                             <label for="search-input" class="form-label label">Options</label>
@@ -179,8 +179,8 @@
                 <div class="result-area pt-3">
                     <textarea id="results-text-area" class="form-control results-text-area" disabled>
                     </textarea>
-                    <button class="neon-button JSON-button m-3" style="margin-right:10px" disabled>Copy JSON</button>
-                    <button class="neon-button open-folder-button m-3" style="margin-right:10px" disabled>Open Folder</button>
+                    <button class="neon-button JSON-button m-3" id="json-copy-btn" style="margin-right:10px" disabled>Copy</button>
+                    <button class="neon-button open-folder-button m-3" id="open-folder-btn" style="margin-right:10px" disabled>Open Folder</button>
                 </div>
             </div>
         

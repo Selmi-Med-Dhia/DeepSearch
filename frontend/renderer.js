@@ -1,4 +1,4 @@
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, clipboard } = require('electron');
 const { format } = require('date-fns');
 
 const $ = require('jquery');
@@ -14,6 +14,7 @@ let selected_preset = 0;
 let presets_html = [];
 let generated_folder = "";
 let custom_result_folder = "";
+let results = [];
 let settings = [];
 let history = [];
 let class_names = [];
@@ -23,11 +24,25 @@ async function selectFolder(source) {
   if (path) {
     if (source == 1){//add folder
       let preset = presets[selected_preset];
-      if (!preset.directories.includes(path)){
+      is_a_son = false;
+      for(const dir of preset.directories){
+        if (path.includes(dir)){
+          is_a_son = true;
+          break;
+        }
+      }
+      if (!is_a_son && !preset.directories.includes(path)){
+        // removing all sons
+        for (let i = preset.directories.length - 1; i >= 0; i--) {
+          if (preset.directories[i].includes(path)) {
+            preset.directories.splice(i, 1);
+          }
+        }
         preset.directories.push(path);
         document.getElementById("directories-area").value = preset.directories.join('\n');
         update_preset(preset);
       }
+      coherent_search_button();
     }else if (source == 2){//customize folder
       add_custom_result_folder(path);
       document.getElementById("custom-folder-area").value = path;
@@ -140,6 +155,24 @@ function coherent_custom_folder_area(e=null){
   }
 }
 
+function coherent_search_button(){
+  if (presets[selected_preset].directories.length == 0){
+    document.getElementById("search-btn").disabled = true;
+  }else{
+    document.getElementById("search-btn").disabled = false;
+  }
+}
+
+function coherent_result_buttons(){
+  if (generated_folder == ""){
+    document.getElementById("json-copy-btn").disabled = true;
+    document.getElementById("open-folder-btn").disabled = true;
+    document.getElementById("results-text-area").textContent = "";
+  }else{
+    document.getElementById("open-folder-btn").disabled = false;
+    document.getElementById("json-copy-btn").disabled = false;
+  }
+}
 async function waitForServer() {
   while (true) {
     try {
@@ -290,6 +323,7 @@ async function waitForServer() {
           textarea.value = presets[selected_preset].directories.join('\n');
           console.log(lineNumber);
           update_preset(presets[selected_preset]);
+          coherent_search_button();
         })
       }
     }
@@ -311,6 +345,19 @@ async function waitForServer() {
     update_preset(presets[selected_preset]);
   })
 
+  document.getElementById("search-btn").addEventListener("click", e => {
+    objects = $("#objectSelector").val();
+    for(i=0; i<objects.length; i++){
+      objects[i] = parseInt(objects[i]);
+    }
+    search(objects);
+  })
+  document.getElementById("open-folder-btn").addEventListener("click", e => {
+    open_folder(generated_folder);
+  })
+  document.getElementById("json-copy-btn").addEventListener("click", e => {
+    clipboard.writeText(document.getElementById("results-text-area").value);
+  })
   coherent_checkboxes();
   coherent_custom_folder_area();
 
@@ -332,9 +379,16 @@ function load_preset(preset){
   document.getElementById("directories-area").value = preset.directories.join('\n') ;
   coherent_checkboxes();
   coherent_custom_folder_area();
+  generated_folder = "";
+  document.getElementById("results-text-area").value = "";
+  $("#objectSelector").val(null).trigger("change");
+  coherent_result_buttons();
+  coherent_search_button();
 }
 function load_history(hist){
+  hist.reverse();
   history_table_body = document.getElementById("history-table-body");
+  history_table_body.innerHTML = "";
   for(i=0; i < hist.length; i++){
     line = hist[i];
     tr = document.createElement("tr");
@@ -563,6 +617,68 @@ function select_preset(name){
   .then(response => response.json())
   .then(data => {
     console.log('Success:', data);
+  })
+  .catch(error => {
+    console.log('Error: '+error);
+  })
+}
+function search(objects){
+  fetch('http://127.0.0.1:5000/search', {
+    method: 'POST',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"objects": objects})
+  })
+  .then(response => response.json())
+  .then(data => {
+    results = data.results;
+    history = data.history;
+    generated_folder = data.result_folder;
+    load_history(history);
+    coherent_result_buttons();
+    document.getElementById("results-text-area").value = construct_search_results(results, objects);
+    document.getElementById("customize-folder-checkbox").checked = false;
+    coherent_custom_folder_area();
+  })
+  .catch(error => {
+    console.log('Error: '+error);
+  })
+}
+function construct_search_results(res, objects){
+  str = "";
+  for(const result of res){
+    str = str + result.image_path + ":    ";
+    class_counts = {};
+    for(const bb of result.bounding_boxes){
+      if (objects.includes(bb.object)){
+        if (class_counts[bb.object] == undefined){
+          class_counts[bb.object] = 1;
+        }else{
+          class_counts[bb.object]++;
+        }
+      }
+    }
+    for(cls in class_counts){
+      str = str + class_counts[cls] + " " + class_names[cls]+", ";
+    }
+    str = str + "\n";
+  }
+  str = str + "\n\n\n";
+  console.log(str);
+  return str;
+}
+function open_folder(path){
+  fetch('http://127.0.0.1:5000/openfolder', {
+    method: 'POST',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"path": path})
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Success: '+data);
   })
   .catch(error => {
     console.log('Error: '+error);

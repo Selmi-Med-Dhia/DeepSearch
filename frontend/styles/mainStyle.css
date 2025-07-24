@@ -166,10 +166,13 @@ body{
   display: block !important;
   height: auto !important;
   padding: 0.5em 0.5em !important;
-  line-height: inherit !important;
+  line-height: 0.4em !important;
   margin: 0 !important;
   box-sizing: border-box;
   font: inherit;
+  color: white !important;
+  transform: translate(0, -5px);
+  font-family: 'Rajdhani', sans-serif;
 }
 .select2-selection__choice__remove:hover {
   background-color: #3e454b !important;
@@ -209,6 +212,14 @@ body{
   background-color: #191b1e !important;
   color: white !important;
 }
+.select2-selection__rendered {
+  max-height: 4.5em !important;
+  overflow-y: auto !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.25em !important;
+}
+
 .directories-area:read-only {
   width: 95%;
   background-color: #1d2023;
@@ -439,7 +450,8 @@ body{
 .directories-area:read-only, 
 .results-text-area,
 .sidebar1,
-.sidebar2{
+.sidebar2,
+.select2-selection__rendered{
   scrollbar-width: thin;
   scrollbar-color: #666 #1d2023;
 }
@@ -447,7 +459,8 @@ body{
 .directories-area:read-only::-webkit-scrollbar, 
 .results-text-area:disabled::-webkit-scrollbar,
 .sidebar1::-webkit-scrollbar,
-.sidebar2::-webkit-scrollbar{
+.sidebar2::-webkit-scrollbar,
+.select2-selection__rendered::-webkit-scrollbar{
   width: 6px;
   height: 6px;
 }
@@ -455,7 +468,8 @@ body{
 .directories-area:read-only:-webkit-scrollbar-button, 
 .results-text-area:disabled::-webkit-scrollbar-button,
 .sidebar1::-webkit-scrollbar-button,
-.sidebar2::-webkit-scrollbar-button{
+.sidebar2::-webkit-scrollbar-button,
+.select2-selection__rendered::-webkit-scrollbar-button{
   display: none;
   height: 0;
   width: 0;
@@ -464,7 +478,8 @@ body{
 .directories-area:read-only::-webkit-scrollbar-track, 
 .results-text-area:disabled::-webkit-scrollbar-track,
 .sidebar1::-webkit-scrollbar-track,
-.sidebar2::-webkit-scrollbar-track {
+.sidebar2::-webkit-scrollbar-track,
+.select2-selection__rendered::-webkit-scrollbar-track{
   background: #1d2023;
   border-radius: 10px;
 }
@@ -472,7 +487,8 @@ body{
 .directories-area:read-only::-webkit-scrollbar-thumb, 
 .results-text-area:disabled::-webkit-scrollbar-thumb,
 .sidebar1::-webkit-scrollbar-thumb,
-.sidebar2::-webkit-scrollbar-thumb {
+.sidebar2::-webkit-scrollbar-thumb,
+.select2-selection__rendered::-webkit-scrollbar-thumb {
   background-color: #666;
   border-radius: 10px;
 }
@@ -719,15 +735,11 @@ table.history-table {
 }
 
 .history-table tr {
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid #2cff2c;
 }
 
 .history-table tr:last-child {
-  border-bottom: none;
-}
-
-.history-table tr:first-child {
-  border-bottom: 1px solid #2cff2c;
+  border-bottom: none !important;
 }
 
 .history-table td, .history-table th {
