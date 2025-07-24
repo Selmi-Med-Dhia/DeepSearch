@@ -731,15 +731,10 @@ table.history-table {
 .history-table th {
   font-weight: bold;
   font-size: 1.1em;
-  position: sticky;
 }
 
 .history-table tr {
-  border-bottom: 1px solid #2cff2c;
-}
-
-.history-table tr:last-child {
-  border-bottom: none !important;
+  border-bottom: 1px solid #2cff2c !important;
 }
 
 .history-table td, .history-table th {
@@ -821,4 +816,15 @@ table.history-table {
   100% {
     transform: rotate(360deg);
   }
+}
+#aint-no-history{
+  width:100;
+  text-align: center;
+  margin:0;
+  padding: 0;
+  color: white;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.2em;
+  padding-top: 50px;
+  display: none;
 }

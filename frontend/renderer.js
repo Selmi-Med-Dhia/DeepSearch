@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(scrollInterval);
       }
     }, 2);
-    
+
     setTimeout(() => {
       isAnimating = false;
     }, 500);
@@ -359,12 +359,12 @@ async function waitForServer() {
     update_preset(presets[selected_preset]);
   })
 
-  document.getElementById("search-btn").addEventListener("click", e => {
+  document.getElementById("search-btn").addEventListener("click", async e => {
     objects = $("#objectSelector").val();
     for(i=0; i<objects.length; i++){
       objects[i] = parseInt(objects[i]);
     }
-    search(objects);
+    await search(objects);
   })
   document.getElementById("open-folder-btn").addEventListener("click", e => {
     open_folder(generated_folder);
@@ -380,7 +380,7 @@ async function waitForServer() {
     veil.style.opacity = String((9.0-i)/10);
     await new Promise(resolve => setTimeout(resolve, 50));
   }
-  veil.remove();
+  veil.style.visibility = "hidden";
 })();
 
 function load_preset(preset){
@@ -400,6 +400,13 @@ function load_preset(preset){
   coherent_search_button();
 }
 function load_history(hist){
+  if (hist.length == 0){
+    document.getElementById("history-table").style.display = "none";
+    document.getElementById("aint-no-history").style.display = "block";
+  }else{
+    document.getElementById("history-table").style.display = "";
+    document.getElementById("aint-no-history").style.display = "none";
+  }
   hist.reverse();
   history_table_body = document.getElementById("history-table-body");
   history_table_body.innerHTML = "";
@@ -636,8 +643,15 @@ function select_preset(name){
     console.log('Error: '+error);
   })
 }
-function search(objects){
-  fetch('http://127.0.0.1:5000/search', {
+async function search(objects){
+  veil = document.querySelector(".veil");
+  veil.style.visibility = "visible";
+  for(i=0;i<10;i++){
+    veil.style.opacity = String((i+0.5)/10);
+    await new Promise(resolve => setTimeout(resolve, 20));
+  }
+  
+  await fetch('http://127.0.0.1:5000/search', {
     method: 'POST',
     headers:{
       'Content-Type': 'application/json'
@@ -645,7 +659,7 @@ function search(objects){
     body: JSON.stringify({"objects": objects})
   })
   .then(response => response.json())
-  .then(data => {
+  .then(async data => {
     results = data.results;
     history = data.history;
     generated_folder = data.result_folder;
@@ -654,6 +668,12 @@ function search(objects){
     document.getElementById("results-text-area").value = construct_search_results(results, objects);
     document.getElementById("customize-folder-checkbox").checked = false;
     coherent_custom_folder_area();
+    for(i=0;i<10;i++){
+      veil.style.opacity = String((9.0-i)/10);
+      await new Promise(resolve => setTimeout(resolve, 50));
+    }
+    veil.style.visibility = "hidden";
+    update_cache();
   })
   .catch(error => {
     console.log('Error: '+error);

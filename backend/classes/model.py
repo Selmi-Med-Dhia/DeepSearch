@@ -1,4 +1,5 @@
 from ultralytics import YOLO
+from multiprocessing import Pool
 from backend.classes.model_result import Model_result
 from backend.classes.bounding_box import Bounding_box
 import os
@@ -7,6 +8,10 @@ from backend.classes.file_manager import File_manager
 import numpy
 
 os.environ["ULTRALYTICS_HUB"] = "False"
+
+def process_images(paths):
+    model = YOLO(os.path.join(os.path.dirname(__file__), '../appdata/model/yolov8s.pt'))
+    return model.predict(paths)
 
 class Model:
     classes = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 
@@ -48,7 +53,7 @@ class Model:
         self.classes = Model.classes
         self.class_colors = Model.class_colors
     
-    def predict(self, image_paths, cache) -> list[Model_result]:
+    def predict(self, image_paths, cache, thread_count) -> list[Model_result]:
         paths = image_paths.copy()
         cached_paths_indecies = []
         cached_results = []
@@ -60,7 +65,12 @@ class Model:
                 cached_results.append(c)
         cached_set = set(cached_paths_indecies)
         paths = [paths[i] for i in range(len(paths)) if i not in cached_set]
-        results = self.real_model.predict(paths) if len(paths) !=0 else []
+        #////////// multiprocessing
+        if (thread_count == 1 or len(paths)<100):
+            results = self.real_model.predict(paths) if len(paths) !=0 else []
+        else:
+            results = self.multiprocess(paths, thread_count)
+
         model_results = []
         for i, result in enumerate(results):
             bounding_boxes = [ Bounding_box(int(bb[0]), int(bb[1]), int(bb[2]), int(bb[3]), int(cls.item()), conf.item()) for bb, conf, cls in zip(result.boxes.xyxy, result.boxes.conf, result.boxes.cls)]
@@ -85,8 +95,23 @@ class Model:
                     cv2.putText(img, label, (bb.x_min, bb.y_min - 2), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.5, color=(0, 0, 0), thickness=1)
             images.append(img)
         return images
+    
     def generate_images(model_results) -> list[numpy.ndarray]:
         images = []
         for model_result in model_results:
             images.append(cv2.imread(model_result.image_path))
         return images
+    
+    def multiprocess(self, paths, processes_count):
+        path_chunks = []
+        chunk_size = len(paths)//processes_count
+        for i in range(0, processes_count-1):
+            path_chunks.append(paths[i*chunk_size: (i+1)*chunk_size])
+        path_chunks.append(paths[(processes_count-1)*chunk_size:])
+        
+        with Pool(processes=processes_count) as pool:
+            outputs = pool.map(process_images,  path_chunks)
+            results = []
+            for o in outputs:
+                results += o
+            return results

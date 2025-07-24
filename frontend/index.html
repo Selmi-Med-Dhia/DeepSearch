@@ -62,15 +62,14 @@
                     </div>
                 </div>
                 <br>
-                <div style="text-wrap:nowrap; padding:0; margin:0;"><h5 class="sub-title m-1 ms-3" style="display:inline-block;">Multithreading: </h5>&nbsp;&nbsp;<p class="rajdhani"> the more theads you allow the faster your searches will complete but at the expense of RAM.</p></div>
+                <div style="text-wrap:nowrap; padding:0; margin:0;"><h5 class="sub-title m-1 ms-3" style="display:inline-block;">Multiprocessing: </h5>&nbsp;&nbsp;<p class="rajdhani"> the more parallel processes you allow the faster your searches will be but at the expense of RAM.</p></div>
                 <div class="slider-container">
-                    <input type="range" id="custom-slider" min="1" max="5" step="1" value="3">
+                    <input type="range" id="custom-slider" min="1" max="4" step="1" value="3">
                     <div class="tick-labels">
                         <span>1</span>
                         <span>2</span>
                         <span>3</span>
                         <span>4</span>
-                        <span>5</span>
                     </div>
                 </div>
 
@@ -101,7 +100,8 @@
             </div>
             <h2 class="title float-right">Search History</h2>
             <div class="sidebar2-main-body">
-                <table class="history-table">
+                <div id="aint-no-history">try out the app first and your searches will pop up back here.</div>
+                <table class="history-table" id="history-table">
                     <thead>
                         <tr>
                         <th>date</th>
@@ -113,7 +113,7 @@
                     </thead>
                     <tbody id="history-table-body">
                     </tbody>
-                    </table>
+                </table>
             </div>
         </div>
 

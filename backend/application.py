@@ -31,7 +31,8 @@ class Application:
         return json.dumps(dic, indent=indent)
     
     def update_settings(self, settings_json):
-        self.settings = File_manager.update_settings(Settings.objectify(settings_json))
+        self.settings = Settings.objectify(settings_json)
+        File_manager.update_settings(self.settings)
     
     def send_feedback(self, content_json):
         content = json.loads(content_json)["content"]
@@ -45,10 +46,12 @@ class Application:
         return json.dumps(dic)
     
     def clear_all_cache(self):
+        self.cache = []
         File_manager.delete_all_cache()
     
     def clear_bad_cache(self):
         File_manager.delete_bad_cache()
+        self.cache = File_manager.get_cache()
     
     def select_preset(self, name_json):
         name = json.loads(name_json)["name"]
@@ -83,7 +86,7 @@ class Application:
             objects = list(range(0, len(Model.classes)))
         preset = [p for p in self.presets if p.selected][0]
         image_paths = File_manager.get_image_paths(preset.directories)
-        model_results, self.cache = self.model.predict(image_paths, self.cache)
+        model_results, self.cache = self.model.predict(image_paths, self.cache, self.settings.thread_count)
         nbr_matches_per_image = [ len([bb for bb in res.bounding_boxes if (bb.object in objects and bb.confidence >= preset.options.minimum_confidence)]) for res in model_results ]
         maching_results = [mr for i, mr in enumerate(model_results) if nbr_matches_per_image[i] != 0]
         nbr_matches_per_image = [n for n in nbr_matches_per_image if n != 0]
